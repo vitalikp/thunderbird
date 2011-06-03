@@ -434,6 +434,8 @@ nsImapProtocol::nsImapProtocol() : nsMsgProtocol(nsnull),
                             getter_Copies(customDBHeaders));
 
     ParseString(customDBHeaders, ' ', mCustomDBHeaders);
+    prefBranch->GetBoolPref("mailnews.display.prefer_plaintext",
+                            &m_preferPlainText);
   }
 
     // ***** Thread support *****
