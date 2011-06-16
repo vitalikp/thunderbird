@@ -65,7 +65,7 @@ if test "$MOZILLA_BRANCH_VERSION" = "5.0"; then
   MOZ_BRANDING_DIRECTORY=mail/branding/unofficial
 else
   MOZ_APP_VERSION_TXT=${_topsrcdir}/$MOZ_BUILD_APP/config/version.txt
-  MOZ_BRANDING_DIRECTORY=mail/branding/nightly
+  MOZ_BRANDING_DIRECTORY=mail/branding/aurora
 fi
 
 MOZ_APP_VERSION=`cat $MOZ_APP_VERSION_TXT`
