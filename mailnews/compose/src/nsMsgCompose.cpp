@@ -1751,7 +1751,7 @@ nsresult nsMsgCompose::CreateMessage(const char * originalMsgURI,
       m_compFields->SetReferences(reference.get());
     }
 
-    return rv;
+    return NS_OK;
   }
 
   char *uriList = PL_strdup(originalMsgURI);
