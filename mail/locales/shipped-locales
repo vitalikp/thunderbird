@@ -3,6 +3,7 @@ ca
 cs
 da
 de
+el
 en-GB
 en-US
 es-AR
@@ -16,12 +17,14 @@ ga-IE
 gd
 gl
 he
+hu
 is
 it
 ja linux win32
 ja-JP-mac osx
 ko
 lt
+nb-NO
 nl
 pl
 pt-BR
@@ -30,6 +33,7 @@ rm
 ru
 si
 sk
+sl
 sv-SE
 ta-LK
 uk
