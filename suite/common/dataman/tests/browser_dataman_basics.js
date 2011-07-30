@@ -76,7 +76,7 @@ function test() {
                              .createInstance(Components.interfaces.nsILoginInfo);
   loginInfo3.init("https://[::1]", null, "foo",
                   "dataman", "mysecret", "", "");
-  Services.logins.addLogin(loginInfo3);
+  gLocSvc.pwd.addLogin(loginInfo3);
 
   //Services.prefs.setBoolPref("data_manager.debug", true);
 
