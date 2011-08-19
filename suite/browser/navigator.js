@@ -1187,7 +1187,9 @@ const BrowserSearch = {
    * Returns the search sidebar element if it is present in the toolbar, null otherwise.
    */
   get searchSidebar() {
-    return document.getElementById("urn:sidebar:panel:search");
+    var panel = sidebarObj.panels.get_panel_from_id("urn:sidebar:panel:search");
+    return panel &&
+       panel.get_iframe().contentDocument.getElementById("sidebar-search-text");
   },
 
   loadAddEngines: function BrowserSearch_loadAddEngines() {
