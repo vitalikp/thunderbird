@@ -2209,7 +2209,7 @@ function remove_from_toolbar(aToolbarElement, aElementId) {
 }
 
 var RECOGNIZED_WINDOWS = ["messagepane", "multimessage"];
-var RECOGNIZED_ELEMENTS = ["folderTree", "threadTree"];
+var RECOGNIZED_ELEMENTS = ["folderTree", "threadTree", "attachmentList"];
 
 /**
  * Focus an element.
@@ -2319,6 +2319,13 @@ function assert_message_pane_focused() {
  */
 function assert_multimessage_pane_focused() {
   _assert_thing_focused("multimessage");
+}
+
+/**
+ * Assert that the attachment list is focused.
+ */
+function assert_attachment_list_focused() {
+  _assert_thing_focused("attachmentList");
 }
 
 
