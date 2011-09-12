@@ -140,3 +140,12 @@ $(LIBXUL_DIST)/bin/platform.ini:
 	 $(PYTHON) $(MOZILLA_SRCDIR)/config/printconfigsetting.py $(DIST)/xpi-stage/$(XPI_NAME)/application.ini App BuildID >> $(LIBXUL_DIST)/bin/platform.ini
 
 recreate-platformini: $(LIBXUL_DIST)/bin/platform.ini
+
+UPLOAD_FILES = \
+  $(DIST)/xpi-stage/lightning.xpi \
+  $(DIST)/xpi-stage/gdata-provider.xpi \
+  $(NULL)
+
+upload:
+	$(PYTHON) $(MOZILLA_DIR)/build/upload.py \
+          $(UPLOAD_FILES)
