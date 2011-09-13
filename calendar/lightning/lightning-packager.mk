@@ -142,10 +142,13 @@ $(LIBXUL_DIST)/bin/platform.ini:
 recreate-platformini: $(LIBXUL_DIST)/bin/platform.ini
 
 UPLOAD_FILES = \
-  $(DIST)/xpi-stage/lightning.xpi \
-  $(DIST)/xpi-stage/gdata-provider.xpi \
+  $(DIST)/$(MOZ_PKG_PLATFORM)/lightning.xpi \
+  $(DIST)/$(MOZ_PKG_PLATFORM)/gdata-provider.xpi \
   $(NULL)
 
 upload:
-	$(PYTHON) $(MOZILLA_DIR)/build/upload.py \
-          $(UPLOAD_FILES)
+	$(NSINSTALL) -D $(DIST)/$(MOZ_PKG_PLATFORM)
+	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/lightning.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
+	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/gdata-provider.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
+	$(PYTHON) $(MOZILLA_DIR)/build/upload.py --base-path $(DIST) \
+	  $(UPLOAD_FILES)
