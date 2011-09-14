@@ -148,7 +148,12 @@ UPLOAD_FILES = \
 
 upload:
 	$(NSINSTALL) -D $(DIST)/$(MOZ_PKG_PLATFORM)
+ifdef UNIVERSAL_BINARY
+	$(INSTALL) $(IFLAGS1) $(DIST)/universal/xpi-stage/lightning.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
+	$(INSTALL) $(IFLAGS1) $(DIST)/universal/xpi-stage/gdata-provider.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
+else
 	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/lightning.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
 	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/gdata-provider.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
+endif
 	$(PYTHON) $(MOZILLA_DIR)/build/upload.py --base-path $(DIST) \
 	  $(UPLOAD_FILES)
