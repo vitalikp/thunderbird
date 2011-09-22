@@ -142,18 +142,18 @@ $(LIBXUL_DIST)/bin/platform.ini:
 recreate-platformini: $(LIBXUL_DIST)/bin/platform.ini
 
 UPLOAD_FILES = \
-  $(DIST)/$(MOZ_PKG_PLATFORM)/lightning.xpi \
-  $(DIST)/$(MOZ_PKG_PLATFORM)/gdata-provider.xpi \
+  lightning.xpi \
+  gdata-provider.xpi \
   $(NULL)
 
 upload:
 	$(NSINSTALL) -D $(DIST)/$(MOZ_PKG_PLATFORM)
 ifdef UNIVERSAL_BINARY
-	$(INSTALL) $(IFLAGS1) $(DIST)/universal/xpi-stage/lightning.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
+	$(INSTALL) $(IFLAGS1) $(DIST)/universal/xpi-stage/lightning-all.xpi $(DIST)/$(MOZ_PKG_PLATFORM)/lightning.xpi
 	$(INSTALL) $(IFLAGS1) $(DIST)/universal/xpi-stage/gdata-provider.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
 else
-	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/lightning.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
+	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/lightning-all.xpi $(DIST)/$(MOZ_PKG_PLATFORM)/lightning.xpi
 	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/gdata-provider.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
 endif
 	$(PYTHON) $(MOZILLA_DIR)/build/upload.py --base-path $(DIST) \
-	  $(UPLOAD_FILES)
+	  $(addprefix $(DIST)/$(MOZ_PKG_PLATFORM)/,$(basename $(UPLOAD_FILES)))
