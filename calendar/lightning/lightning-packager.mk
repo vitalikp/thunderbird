@@ -164,4 +164,4 @@ else
 	$(INSTALL) $(IFLAGS1) $(DIST)/xpi-stage/gdata-provider.xpi $(DIST)/$(MOZ_PKG_PLATFORM)
 endif
 	$(PYTHON) $(MOZILLA_DIR)/build/upload.py --base-path $(DIST) \
-	  $(addprefix $(DIST)/$(MOZ_PKG_PLATFORM)/,$(basename $(UPLOAD_FILES)))
+	  $(addprefix $(DIST)/$(MOZ_PKG_PLATFORM)/,$(UPLOAD_FILES))
