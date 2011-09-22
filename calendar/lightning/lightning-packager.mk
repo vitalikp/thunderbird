@@ -97,10 +97,18 @@ else
 	@exit 1
 endif
 
+ifeq (cocoa,$(MOZ_WIDGET_TOOLKIT))
+SHORTOS = osx
+else
+# For now, osx is the only special case. Therefore, we can just fallback to
+# detecting linux which should be the second argument.
+SHORTOS = linux
+endif
+
 # Repack the existing lightning to contain all locales in lightning-all.xpi
 repack-l10n-all: AB_CD=all
 repack-l10n-all: L10N_XPI_NAME=lightning-all
-repack-l10n-all: repack-clobber-all $(addprefix libs-,$(shell cat $(topsrcdir)/calendar/locales/shipped-locales))
+repack-l10n-all: repack-clobber-all $(addprefix libs-,$(shell awk '{ if ($$2 == "" || $$2 == "$(SHORTOS)") { print $$1 } }' $(topsrcdir)/calendar/locales/shipped-locales))
 
 .PHONY : repack-l10n-all
 
