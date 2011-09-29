@@ -304,7 +304,7 @@ var specialTabs = {
 
     // Only show what's new tab if this is actually an upgraded version,
     // not just a new installation/profile.
-    if (fromVer && fromVer != toVer)
+    if (fromVer && fromVer != toVer && fromVer != '7.0')
       this.showWhatsNewPage();
 
     // Show the about rights notification if we need to.
