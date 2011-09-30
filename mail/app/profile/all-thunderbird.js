@@ -729,3 +729,10 @@ pref("plugins.crash.supportUrl", "https://live.mozillamessaging.com/%APP%/plugin
 pref("mail.taskbar.lists.enabled", true);
 pref("mail.taskbar.lists.tasks.enabled", true);
 #endif
+
+// Disable hardware accelerated layers
+pref("layers.acceleration.disabled", true);
+#ifdef XP_WIN
+// and direct2d support on Windows
+pref("gfx.direct2d.disabled", true);
+#endif
