@@ -1630,5 +1630,6 @@ function GetFileFromString(aString)
   let commandLine = Components.classes["@mozilla.org/toolkit/command-line;1"]
                               .createInstance(Components.interfaces.nsICommandLine);
   let uri = commandLine.resolveURI(aString);
-  return uri instanceof Components.interfaces.nsIFileURL ? uri.file : null;
+  return uri instanceof Components.interfaces.nsIFileURL ?
+         uri.file.QueryInterface(Components.interfaces.nsILocalFile) : null;
 }
