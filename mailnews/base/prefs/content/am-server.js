@@ -138,7 +138,6 @@ function onAdvanced()
   var serverType = document.getElementById("server.type").getAttribute("value");
   serverSettings.serverType = serverType;
 
-  serverSettings.serverPrettyName = gServer.prettyName;
 
   if (serverType == "imap")
   {
