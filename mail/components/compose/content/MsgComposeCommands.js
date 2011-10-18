@@ -3213,7 +3213,7 @@ nsAttachmentOpener.prototype =
 
   getInterface: function(iid)
   {
-    if (iid.equals(Components.interfaces.nsIDOMWindowInternal))
+    if (iid.equals(Components.interfaces.nsIDOMWindow))
       return window;
     else
       return this.QueryInterface(iid);
