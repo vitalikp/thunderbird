@@ -84,7 +84,8 @@ nsLDAPConnection::~nsLDAPConnection()
 {
   nsCOMPtr<nsIObserverService> obsServ =
       mozilla::services::GetObserverService();
-  obsServ->RemoveObserver(this, "profile-change-net-teardown");
+  if (obsServ)
+      obsServ->RemoveObserver(this, "profile-change-net-teardown");
   Close();
 }
 
