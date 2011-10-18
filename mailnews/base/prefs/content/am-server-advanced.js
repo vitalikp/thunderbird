@@ -62,13 +62,6 @@ function getLocalFoldersAccount()
 
 function onLoad()
 {
-  var prettyName = gServerSettings.serverPrettyName;
-
-  if (prettyName)
-    document.getElementById("serverPrettyName").value = 
-      document.getElementById("bundle_prefs")
-              .getFormattedString("forAccount", [prettyName]);
-
   if (gServerSettings.serverType == "imap")
   {
     document.getElementById("pop3Panel").hidden = true;
