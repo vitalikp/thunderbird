@@ -2429,8 +2429,6 @@ function ComposeCanClose()
           RemoveDraft();            
         break;
     }
-
-    SetContentAndBodyAsUnmodified();
   }
 
   return true;
