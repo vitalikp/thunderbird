@@ -3630,7 +3630,7 @@ var attachmentBucketDNDObserver = {
   {
     var target = aEvent.target;
 
-    if (target.localName == "listitem")
+    if (target.localName == "attachmentitem")
       aAttachmentData.data = CreateAttachmentTransferData(target.attachment);
   }
 };
