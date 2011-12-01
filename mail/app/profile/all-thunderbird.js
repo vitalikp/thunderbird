@@ -137,6 +137,10 @@ pref("extensions.logging.enabled", false);
 // compatibile by default.
 pref("extensions.strictCompatibility", true);
 
+// Specifies a minimum maxVersion an addon needs to say it's compatible with
+// for it to be compatible by default.
+pref("extensions.minCompatibleAppVersion", "5.0");
+
 pref("extensions.update.autoUpdateDefault", true);
 
 // Disable add-ons installed into the shared user and shared system areas by
