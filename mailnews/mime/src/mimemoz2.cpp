@@ -116,6 +116,22 @@ static PRBool MIME_VariableWidthPlaintext;
 //
 MimeObject    *mime_get_main_object(MimeObject* obj);
 
+nsresult MimeGetSize(MimeObject *child, PRInt32 *size) {
+  PRBool isLeaf = mime_subclass_p(child->clazz, (MimeObjectClass *) &mimeLeafClass);
+  PRBool isContainer = mime_subclass_p(child->clazz, (MimeObjectClass *) &mimeContainerClass);
+
+  if (isLeaf) {
+    *size += ((MimeLeaf *)child)->sizeSoFar;
+  } else if (isContainer) {
+    int i;
+    MimeContainer *cont = (MimeContainer *)child;
+    for (i = 0; i < cont->nchildren; ++i) {
+      MimeGetSize(cont->children[i], size);
+    }
+  }
+  return NS_OK;
+}
+
 nsresult
 ProcessBodyAsAttachment(MimeObject *obj, nsMsgAttachmentData **data)
 {
@@ -483,22 +499,6 @@ GenerateAttachmentData(MimeObject *object, const char *aMessageURL, MimeDisplayO
 
   ValidateRealName(tmp, object->headers);
 
-  return NS_OK;
-}
-
-nsresult MimeGetSize(MimeObject *child, PRInt32 *size) {
-  PRBool isLeaf = mime_subclass_p(child->clazz, (MimeObjectClass *) &mimeLeafClass);
-  PRBool isContainer = mime_subclass_p(child->clazz, (MimeObjectClass *) &mimeContainerClass);
-
-  if (isLeaf) {
-    *size += ((MimeLeaf *)child)->sizeSoFar;
-  } else if (isContainer) {
-    int i;
-    MimeContainer *cont = (MimeContainer *)child;
-    for (i = 0; i < cont->nchildren; ++i) {
-      MimeGetSize(cont->children[i], size);
-    }
-  }
   return NS_OK;
 }
 
