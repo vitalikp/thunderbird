@@ -141,6 +141,8 @@ class ThunderTestProfile(mozrunner.ThunderbirdProfile):
         'mail.startup.enabledMailCheckOnce' :  True,
         # Disable compatibility checking
         'extensions.checkCompatibility.nightly': False,
+        'extensions.checkCompatibility.11.0a': False,
+        'extensions.checkCompatibility.11.0': False,
         # Disable test pilot new tab (this can be set to anything currently, just needs to be set).
         'extensions.testpilot.lastversion': '1.0',
         # In case a developer is working on a laptop without a network
