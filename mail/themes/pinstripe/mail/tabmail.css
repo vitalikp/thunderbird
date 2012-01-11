@@ -109,6 +109,13 @@
                      4px 5px 3px 6px repeat stretch;
 }
 
+/* preloading hack - required to prevent flicker on tabs startup */
+#tabs-toolbar::after {
+  content: '';
+  display: block;
+  background-image: url(tabs/tab-normal-active.png), url(tabs/tab-hover-active.png);
+}
+
 .tabmail-tab:-moz-lwtheme:not([selected="true"]):not(:hover) > .tab-text {
   opacity: .8;
 }
