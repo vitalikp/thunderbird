@@ -195,10 +195,32 @@ NS_IMETHODIMP nsRssIncomingServer::GetNewMail(nsIMsgWindow *aMsgWindow, nsIUrlLi
   if (rootFolder)
     return PerformBiff(aMsgWindow);
 
+  bool valid = false;
+  nsCOMPtr <nsIMsgDatabase> db;
   nsresult rv;
   nsCOMPtr <nsINewsBlogFeedDownloader> rssDownloader = do_GetService("@mozilla.org/newsblog-feed-downloader;1", &rv);
   NS_ENSURE_SUCCESS(rv, rv);
-  rssDownloader->DownloadFeed(nsnull, aFolder, nsnull, nsnull, aUrlListener, aMsgWindow);
+  rv = aFolder->GetMsgDatabase(getter_AddRefs(db));
+  if (NS_SUCCEEDED(rv) && db)
+  {
+    rv = db->GetSummaryValid(&valid);
+    NS_ASSERTION(valid, "db is invalid");
+    if (valid)
+    {
+      nsCOMPtr <nsIDBFolderInfo> folderInfo;
+      rv = db->GetDBFolderInfo(getter_AddRefs(folderInfo));
+      if (folderInfo)
+      {
+        nsCString url;
+        nsString folderName;
+        aFolder->GetName(folderName);
+        folderInfo->GetCharProperty("feedUrl", url);
+
+        rv = rssDownloader->DownloadFeed(url.get(),
+                                         aFolder, PR_FALSE, folderName.get(), aUrlListener, aMsgWindow);
+      }
+    }
+  }
   return NS_OK;
 }
 

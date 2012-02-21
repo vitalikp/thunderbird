@@ -397,7 +397,7 @@ Feed.prototype =
     }
   }, 
 
-  removeInvalidItems: function(aDeleteFeed) 
+  removeInvalidItems: function() 
   {
     var ds = getItemsDS(this.server);
     debug("removing invalid items for " + this.url);
@@ -417,8 +417,7 @@ Feed.prototype =
                      parseInt(lastSeenTime
                               .QueryInterface(Components.interfaces.nsIRDFLiteral)
                               .Value) : 0;
-      if ((currentTime - lastSeenTime) < INVALID_ITEM_PURGE_DELAY && !aDeleteFeed)
-        // Don't immediately purge items in active feeds; do so for deleted feeds.
+      if ((currentTime - lastSeenTime) < INVALID_ITEM_PURGE_DELAY)
         continue;
 
       debug("removing " + item.Value);
@@ -478,7 +477,7 @@ Feed.prototype =
         // run the bayesian spam filter, if enabled
         item.feed.folder.callFilterPlugins(null);
       }
-      this.cleanupParsingState(item.feed);
+      this.cleanupParsingState(item.feed);   
     }
   },
 
@@ -486,7 +485,7 @@ Feed.prototype =
   {
     // now that we are done parsing the feed, remove the feed from our feed cache
     FeedCache.removeFeed(aFeed.url);
-    aFeed.removeInvalidItems(false);
+    aFeed.removeInvalidItems();
 
     // let's be sure to flush any feed item changes back to disk
     var ds = getItemsDS(aFeed.server);

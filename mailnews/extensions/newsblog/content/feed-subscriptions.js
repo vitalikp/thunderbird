@@ -212,7 +212,7 @@ var gFeedSubscriptionsWindow = {
     extractDragData: function()
     {
       var canDrop = false;
-      var urlToDrop, sourceUri;
+      var urlToDrop;
       var sourceIndex = kRowIndexUndefined;
       var dragService = Components.classes["@mozilla.org/widget/dragservice;1"].getService().QueryInterface(nsIDragService);
       var dragSession = dragService.getCurrentSession();
@@ -344,7 +344,7 @@ var gFeedSubscriptionsWindow = {
     performActionOnRow: function (aAction, aIndex) {},    
     performActionOnCell: function (aAction, aindex, aColumn) {}
   },
-
+  
   makeFolderObject: function (aFolder, aCurrentLevel)
   {
     var folderObject =  { children : [],
@@ -354,7 +354,7 @@ var gFeedSubscriptionsWindow = {
                           open     : false,
                           container: true };
 
-    // If a feed has any sub folders, we should add them to the list of children.
+    // if a feed has any sub folders, we should add them to the list of children
     var folderEnumerator = aFolder.subFolders;
 
     while (folderEnumerator.hasMoreElements())
@@ -367,17 +367,15 @@ var gFeedSubscriptionsWindow = {
     }
 
     var feeds = this.getFeedsInFolder(aFolder);
-
-    for (let feed in feeds)
+    
+    for (feed in feeds)
     {
       // Special case, if a folder only has a single feed associated with it, then just use the feed
       // in the view and don't show the folder at all. 
 //      if (feedUrlArray.length <= 2 && !aFolder.hasSubFolders) // Note: split always adds an empty element to the array...
 //        this.mFeedContainers[aCurrentLength] = this.makeFeedObject(feed, aCurrentLevel);
 //      else // now add any feed urls for the folder
-        folderObject.children.push(this.makeFeedObject(feeds[feed],
-                                                       aFolder,
-                                                       aCurrentLevel + 1));
+        folderObject.children.push(this.makeFeedObject(feeds[feed], aCurrentLevel + 1));           
     }
 
     return folderObject;
@@ -385,37 +383,39 @@ var gFeedSubscriptionsWindow = {
 
   getFeedsInFolder: function (aFolder)
   {
-    let feeds = new Array();
-    let feedUrlArray = getFeedUrlsInFolder(aFolder);
-    if (!feedUrlArray)
-      // No feedUrls in this folder.
-      return;
-
-    for (let url in feedUrlArray)
+    var feeds = new Array();
+    try
     {
-      if (!feedUrlArray[url])
-        continue;
-      let feedResource = rdf.GetResource(feedUrlArray[url]);
-      let feed = new Feed(feedResource, this.mRSSServer);
-      feeds.push(feed);
+      var msgdb = aFolder.QueryInterface(Components.interfaces.nsIMsgFolder)
+                         .msgDatabase;
+      var folderInfo = msgdb.dBFolderInfo;
+      var feedurls = folderInfo.getCharProperty("feedUrl");
+      var feedUrlArray = feedurls.split("|");
+      for (url in feedUrlArray)
+      {
+        if (!feedUrlArray[url])
+          continue;
+        var feedResource  = rdf.GetResource(feedUrlArray[url]);
+        var feed = new Feed(feedResource, this.mRSSServer);
+        feeds.push(feed);
+      }
     }
-
+    catch(ex) {}
     return feeds;
   },
-
-  makeFeedObject: function (aFeed, aFolder, aLevel)
+  
+  makeFeedObject: function (aFeed, aLevel)
   {
     // look inside the data source for the feed properties
     var feed = { children    : [],
-                 parentFolder: aFolder,
-                 name        : aFeed.title || aFeed.description || aFeed.url,
+                 name        : aFeed.title,
                  url         : aFeed.url,
                  level       : aLevel,
                  open        : false,
                  container   : false };
     return feed;
   },
-
+  
   loadSubscriptions: function () 
   {
     // put together an array of folders
@@ -475,7 +475,7 @@ var gFeedSubscriptionsWindow = {
       }
     }
   },
-
+  
   selectFeed: function(aFeed)
   {
     this.selectFolder(aFeed.folder);
@@ -513,7 +513,7 @@ var gFeedSubscriptionsWindow = {
     for (var i = 0; i < ids.length; ++i)
       document.getElementById(ids[i]).disabled = !aItem || aItem.container;
   },
-
+ 
   onKeyPress: function(aEvent)
   {
     if (aEvent.keyCode == aEvent.DOM_VK_ENTER ||
@@ -532,9 +532,9 @@ var gFeedSubscriptionsWindow = {
     document.getElementById("removeFeed").disabled = !item || item.container;
     document.getElementById("editFeed").disabled = !item || item.container;
   },
-
+  
   removeFeed: function ()
-  {
+  { 
     var seln = this.mView.selection;
     if (seln.count != 1)
       return;
@@ -544,30 +544,40 @@ var gFeedSubscriptionsWindow = {
     if (!itemToRemove || itemToRemove.container)
       return;
 
-    // Confirm unsubscribe prompt.
-    var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-                                  .getService(IPS);
-    var pTitle = this.mBundle.getString('subscribe-confirmFeedDeletionTitle');
-    var pMessage = this.mBundle.getFormattedString('subscribe-confirmFeedDeletion',
-                                                   [itemToRemove.name], 1);
-    var abortRemoval = promptService.confirmEx(window, pTitle, pMessage,
-                                               IPS.STD_YES_NO_BUTTONS,
-                                               null, null, null, null, { });
+    // ask the user if he really wants to unsubscribe from the feed
+    var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(IPS);
+    var abortRemoval = promptService.confirmEx(window, this.mBundle.getString('subscribe-confirmFeedDeletionTitle'),
+                                               this.mBundle.getFormattedString('subscribe-confirmFeedDeletion', [itemToRemove.name], 1),
+                                               IPS.STD_YES_NO_BUTTONS, null, null, null, null, { });
     if (abortRemoval)
       return;
 
-    deleteFeed(rdf.GetResource(itemToRemove.url),
-                               this.mRSSServer,
-                               itemToRemove.parentFolder);
+    deleteFeed(rdf.GetResource(itemToRemove.url), this.mRSSServer);
 
-    // Now that we have removed the feed from the datasource, it is time to
-    // update our view layer.  Start by removing the child from its parent
-    // folder object.
+    // Now that we have removed the feed from the datasource, it is time to update our
+    // view layer. Start by removing the child from its parent folder object
     this.mView.removeItemAtIndex(seln.currentIndex);
-  },
 
-  // aRootFolderURI --> optional argument.  The folder to initially create
-  // the new feed under.
+    // If we don't have any more subscriptions pointing into
+    // this folder, then I think we should offer to delete it...
+    // Cheat and look at the feed url property to see if anyone else is still using the feed...
+    // you could also accomplish this by looking at some properties in the data source...
+
+//    var msgdb = currentFolder.QueryInterface(Components.interfaces.nsIMsgFolder).msgDatabase;
+//   var folderInfo = msgdb.dBFolderInfo;
+//    var oldFeedUrl = folderInfo.getCharProperty("feedUrl");
+
+//    if (!oldFeedUrl) // no more feeds pointing to the folder?
+//    {
+//      try {
+//        var openerResource = this.mRSSServer.rootMsgFolder.QueryInterface(Components.interfaces.nsIRDFResource);
+//        var folderResource = currentFolder.QueryInterface(Components.interfaces.nsIRDFResource);
+//        window.opener.messenger.DeleteFolders(window.opener.GetFolderDatasource(), openerResource, folderResource);
+//      } catch (e) { }
+//    }
+  },
+  
+  // aRootFolderURI --> optional argument. The folder to initially create the new feed under.
   addFeed: function(aFeedLocation, aRootFolderURI)
   {
     var userAddedFeed = false; 
@@ -678,7 +688,7 @@ var gFeedSubscriptionsWindow = {
     {
       // we need to find the index of the new parent folder...
       var newParentIndex = kRowIndexUndefined;
-      for (let index = 0; index < this.mView.rowCount; index++)
+      for (index = 0; index < this.mView.rowCount; index++)
       {
         var item = this.mView.getItemAtIndex(index);
         if (item && item.container && item.url == feedProperties.folderURI)
@@ -885,7 +895,7 @@ var gFeedSubscriptionsWindow = {
 
     // pretty printing
     var indentString = "";
-    for (let i = 0; i < indentLevel; i++)
+    for(i = 0; i < indentLevel; i++)
       indentString = indentString + " ";
  
     while (folderEnumerator.hasMoreElements())
@@ -910,7 +920,7 @@ var gFeedSubscriptionsWindow = {
         {
           // Add outline elements with xmlUrls
           var feeds = this.getFeedsInFolder(folder);
-          for (let feed in feeds)
+          for (feed in feeds)
           {
             outline = this.opmlFeedToOutline(feeds[feed],parent.ownerDocument);
             this.generatePPSpace(parent, indentString);

@@ -47,54 +47,64 @@ var nsNewsBlogFeedDownloader =
   downloadFeed: function(aUrl, aFolder, aQuickMode, aTitle, aUrlListener, aMsgWindow)
   {
     const Ci = Components.interfaces;
-
+    
     if (!gExternalScriptsLoaded)
       loadScripts();
 
-    // We don't yet support the ability to check for new articles while we are
-    // in the middle of  subscribing to a feed. For now, abort the check for
-    // new feeds.
+    // we don't yet support the ability to check for new articles while we are in the middle of 
+    // subscribing to a feed. For now, abort the check for new feeds. 
     if (progressNotifier.mSubscribeMode)
     {
       debug('Aborting RSS New Mail Check. Feed subscription in progress\n');
       return;
     }
+    // if folder seems to have lost its feeds, look in DS for feeds.
+    if (!aUrl.length)
+    {
+      var ds = getSubscriptionsDS(aFolder.server);
+      var enumerator = ds.GetSources(FZ_DESTFOLDER, aFolder, true);
+      var concatenatedUris = "";
+      while (enumerator.hasMoreElements())
+      {
+        var containerArc = enumerator.getNext();
+        var uri = containerArc.QueryInterface(Ci.nsIRDFResource).Value;
+        if (concatenatedUris.length > 0)
+          concatenatedUris += "|";
+        concatenatedUris += uri;
+      }
+      if (concatenatedUris.length > 0)
+      {
+        aUrl = concatenatedUris;
+        try
+        {
+          var msgdb = aFolder.msgDatabase;
+          var folderInfo = msgdb.dBFolderInfo;
+          folderInfo.setCharProperty("feedUrl", concatenatedUris);
+        }
+        catch (ex) {dump(ex);}
+      }
+    }
 
-    let feedUrlArray = getFeedUrlsInFolder(aFolder);
-
-    // Return if there are no feedUrls for the folder in the feeds database or
-    // the folder is in Trash.
-    if (!feedUrlArray ||
+    // Return if there is still nothing in aUrl or the folder is in Trash.
+    if (!aUrl.length ||
         aFolder.isSpecialFolder(Ci.nsMsgFolderFlags.Trash, true))
       return;
 
-    // Ensure msgDatabase open for new message processing.
-    let msgDb;
-    try {
-      msgDb = aFolder.QueryInterface(Ci.nsIMsgLocalMailFolder)
-                     .getDatabaseWOReparse();
-    }
-    catch (ex) {}
-    if (!msgDb) {
-      // Forcing a reparse with listener here is the last resort.  This is
-      // not implemented; it is currently not done and may be unnecessary given
-      // other msgDatabse sync fixes.
-    }
-
     // Maybe just pull all these args out of the aFolder DB,
     // instead of passing them in...
-    let rdf = Components.classes["@mozilla.org/rdf/rdf-service;1"]
+    var rdf = Components.classes["@mozilla.org/rdf/rdf-service;1"]
                         .getService(Ci.nsIRDFService);
     progressNotifier.init(aMsgWindow, false);
 
+    // aUrl may be a delimited list of feeds for a particular folder.
     // We need to kick off a download for each feed.
-    let id, feed;
-    for (let url in feedUrlArray)
+    var feedUrlArray = aUrl.split("|");
+    for (var url in feedUrlArray)
     {
       if (feedUrlArray[url])
       {
-        id = rdf.GetResource(feedUrlArray[url]);
-        feed = new Feed(id, aFolder.server);
+        var id = rdf.GetResource(feedUrlArray[url]);
+        var feed = new Feed(id, aFolder.server);
         feed.folder = aFolder;
         gNumPendingFeedDownloads++; // bump our pending feed download count
         feed.download(true, progressNotifier);
@@ -228,15 +238,13 @@ var nsNewsBlogFeedDownloader =
     if (!gExternalScriptsLoaded)
       loadScripts();
 
-    // An rss folder was just changed, get the folder's feedUrls and update
-    // our feed data source.
-    var feedUrlArray = getFeedUrlsInFolder(aFolder);
-    if (!feedUrlArray)
-      // No feedUrls in this folder.
-      return;
+    // an rss folder was just renamed...we need to update our feed data source
+    var msgdb = aFolder.QueryInterface(Components.interfaces.nsIMsgFolder)
+                       .msgDatabase;
+    var folderInfo = msgdb.dBFolderInfo;
+    var feedUrlArray = folderInfo.getCharProperty("feedUrl").split("|");
 
-    var rdf = Components.classes["@mozilla.org/rdf/rdf-service;1"]
-                        .getService(Components.interfaces.nsIRDFService);
+    var rdf = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
     var ds = getSubscriptionsDS(aFolder.server);
 
     for (var url in feedUrlArray)
@@ -249,7 +257,7 @@ var nsNewsBlogFeedDownloader =
         // if it is, then we can treat this as an unsubscribe action.
         if (aUnsubscribe)
         {
-          deleteFeed(id, aFolder.server, aFolder);
+          deleteFeed(id, aFolder.server);
         }
         else
         {
@@ -264,7 +272,7 @@ var nsNewsBlogFeedDownloader =
       }
     } // for each feed url in the folder property
 
-    ds.QueryInterface(Components.interfaces.nsIRDFRemoteDataSource).Flush();
+    ds.QueryInterface(Components.interfaces.nsIRDFRemoteDataSource).Flush(); // flush any changes
   },
 
   QueryInterface: function(aIID)
@@ -458,14 +466,14 @@ var progressNotifier = {
     else
       this.mFeeds[feed.url] = {currentProgress: aProgress, maxProgress: aProgressMax};
     
-    this.updateProgressBar();
+    this.updateProgressBar();     
   },
 
   updateProgressBar: function()
   {
     var currentProgress = 0;
     var maxProgress = 0;
-    for (let index in this.mFeeds)
+    for (index in this.mFeeds)
     {
       currentProgress += this.mFeeds[index].currentProgress;
       maxProgress += this.mFeeds[index].maxProgress;
