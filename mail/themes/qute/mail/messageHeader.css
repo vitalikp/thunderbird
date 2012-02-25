@@ -374,6 +374,7 @@ toolbar[iconsize="small"] .hdrTrashButton {
 
 .inline-toolbar {
   -moz-box-pack: end;
+  border-bottom-width: 0 !important;
 }
 
 window[inlinetoolbox] #smallicons,
