@@ -450,7 +450,7 @@ calDavCalendar.prototype = {
     },
 
     getProperty: function caldav_getProperty(aName) {
-        if (aName in this.mACLProperties) {
+        if (aName in this.mACLProperties && this.mACLProperties[aName]) {
             return this.mACLProperties[aName];
         }
 
@@ -1251,7 +1251,11 @@ calDavCalendar.prototype = {
     },
 
     fillACLProperties: function caldav_fillACLProperties() {
-        this.mACLProperties["organizerId"] = this.calendarUserAddress;
+        let orgId = this.calendarUserAddress;
+        if (orgId) {
+            this.mACLProperties["organizerId"] = orgId;
+        }
+
         if (this.mACLEntry && this.mACLEntry.hasAccessControl) {
             let ownerIdentities = this.mACLEntry.getOwnerIdentities({});
             if (ownerIdentities.length > 0) {
