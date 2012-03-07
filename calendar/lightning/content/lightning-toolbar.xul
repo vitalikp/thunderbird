@@ -43,6 +43,7 @@
 
 <!DOCTYPE overlay [
   <!ENTITY % mailOverlayDTD SYSTEM "chrome://messenger/locale/mailOverlay.dtd"> %mailOverlayDTD;
+  <!ENTITY % menuOverlayDTD SYSTEM "chrome://calendar/locale/menuOverlay.dtd" > %menuOverlayDTD;
   <!ENTITY % messengerDTD SYSTEM "chrome://messenger/locale/messenger.dtd"> %messengerDTD;
   <!ENTITY % lightningDTD SYSTEM "chrome://lightning/locale/lightning.dtd"> %lightningDTD;
   <!ENTITY % calendarDTD SYSTEM "chrome://calendar/locale/calendar.dtd" > %calendarDTD;
