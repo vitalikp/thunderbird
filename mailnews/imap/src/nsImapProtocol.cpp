@@ -1868,7 +1868,6 @@ bool nsImapProtocol::ProcessCurrentURL()
 
 bool nsImapProtocol::RetryUrl()
 {
-  PR_CEnterMonitor(this);
   nsCOMPtr <nsIImapUrl> kungFuGripImapUrl = m_runningUrl;
   nsCOMPtr <nsIImapMockChannel> saveMockChannel;
 
@@ -1883,7 +1882,6 @@ bool nsImapProtocol::RetryUrl()
     imapServer->RemoveConnection(this);
   if (m_imapServerSink)
     m_imapServerSink->RetryUrl(kungFuGripImapUrl, saveMockChannel);
-  PR_CExitMonitor(this);
   return (m_imapServerSink != nsnull); // we're running a url (the same url)
 }
 
