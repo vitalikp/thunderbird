@@ -461,8 +461,8 @@
                             accesskey="&event.menu.options.attachments.accesskey;"
                             command="cmd_attach_url"/>
                   <menuitem id="options-timezone-menuitem"
-                            label="&event.menu.options.timezone2.label;"
-                            accesskey="&event.menu.options.timezone2.accesskey;"
+                            label="&event.menu.options.timezone.label;"
+                            accesskey="&event.menu.options.timezone.accesskey;"
                             checked="false"
                             type="checkbox"
                             persist="checked"
