@@ -25,7 +25,7 @@ DEFAULTS = {
 
   # URL of the default hg repository to clone for Venkman.
   'VENKMAN_REPO': 'http://hg.mozilla.org/venkman/',
-  'VENKMAN_REV':  'a38583d7164a',
+  'VENKMAN_REV':  'b6a784fb2a54',
 
   # URL of the default hg repository to clone for Mozilla.
   'MOZILLA_REPO': 'http://hg.mozilla.org/releases/mozilla-beta/',
