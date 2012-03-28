@@ -14,7 +14,7 @@ imProtocolInfo.prototype = {
   get requiresUsername() true,
   get preflightPrettyNameWithEmailAddress() false,
   get canDelete() true,
-  get canLoginAtStartUp() true,
+  get canLoginAtStartUp() false,
   get canDuplicate() false,
   getDefaultServerPort: function() 0,
   get canGetMessages() false,
