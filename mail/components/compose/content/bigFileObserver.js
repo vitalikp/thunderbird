@@ -100,7 +100,14 @@ var gBigFileObserver = {
         return;
       }
 
+      let msgBundle = Services.strings.createBundle("chrome://messenger/locale/messenger.properties");
+
       let buttons = [
+        {
+          label: msgBundle.GetStringFromName("crashedpluginsMessage.learnMore"),
+          accessKey: "",
+          callback: this.openLearnMore.bind(this),
+        },
         { label: this.formatString("bigFileShare.label",
                                    []),
           accessKey: this.formatString("bigFileShare.accesskey"),
@@ -114,16 +121,23 @@ var gBigFileObserver = {
         },
       ];
 
-      nb.appendNotification(this.formatString("bigFileDescription",
-                                              [this.bigFiles.length],
-                                              this.bigFiles.length),
-                            "bigAttachment", "null", nb.PRIORITY_WARNING_MEDIUM,
-                            buttons);
+      let msg = this.formatString("bigFileDescription", [this.bigFiles.length],
+                                  this.bigFiles.length);
+
+      notification = nb.appendNotification(msg, "bigAttachment", "null",
+                                           nb.PRIORITY_WARNING_MEDIUM,
+                                           buttons);
     }
     else {
       if (notification)
         nb.removeNotification(notification);
     }
+  },
+
+  openLearnMore: function() {
+    let url = Services.prefs.getCharPref("mail.cloud_files.learn_more_url");
+    openContentTab(url);
+    return true;
   },
 
   convertAttachments: function() {
