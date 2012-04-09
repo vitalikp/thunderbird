@@ -877,7 +877,7 @@ SuiteGlue.prototype = {
     // be set to the version it has been added in, we will compare its value
     // to users' smartBookmarksVersion and add new smart bookmarks without
     // recreating old deleted ones.
-    const SMART_BOOKMARKS_VERSION = 2;
+    const SMART_BOOKMARKS_VERSION = 3;
     const SMART_BOOKMARKS_ANNO = "Places/SmartBookmark";
     const SMART_BOOKMARKS_PREF = "browser.places.smartBookmarksVersion";
 
@@ -938,7 +938,6 @@ SuiteGlue.prototype = {
                                 Components.interfaces.nsINavHistoryQueryOptions.QUERY_TYPE_BOOKMARKS +
                                 "&sort=" +
                                 Components.interfaces.nsINavHistoryQueryOptions.SORT_BY_DATEADDED_DESCENDING +
-                                "&excludeItemIfParentHasAnnotation=livemark%2FfeedURI" +
                                 "&maxResults=" + MAX_RESULTS +
                                 "&excludeQueries=1"),
                  parent: bmsvc.bookmarksMenuFolder,
