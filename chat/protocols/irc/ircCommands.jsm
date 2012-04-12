@@ -175,7 +175,7 @@ var commands = [
   {
     name: "join",
     get helpString() _("command.join", "join"),
-    run: function(aMsg, aConv) simpleCommand(aConv, "JOIN", aMsg)
+    run: function(aMsg, aConv) simpleCommand(aConv, "JOIN", aMsg.split(" "))
   },
   {
     name: "kick",
