@@ -23,6 +23,13 @@ const kDefaults = {
   accountKey: null,
   settingsURL: "",
   managementURL: "",
+  // These are taken from nsIMsgCloudFileProvider
+  authErr: 0x8055001e,
+  offlineErr: 0x80550014,
+  uploadErr: 0x8055311a,
+  uploadWouldExceedQuota: 0x8055311b,
+  uploadExceedsFileLimit: 0x8055311c,
+  uploadCanceled: 0x8055311d,
 };
 
 Cu.import("resource://gre/modules/Services.jsm");
