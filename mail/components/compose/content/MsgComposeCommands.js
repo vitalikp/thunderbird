@@ -1132,6 +1132,11 @@ uploadListener.prototype = {
         attachmentItem.uploading = false;
         attachmentItem.attachment.sendViaCloud = false;
         delete attachmentItem.cloudProvider;
+
+        let event = document.createEvent("CustomEvent");
+        event.initEvent("attachment-upload-failed", true, true,
+                        aStatusCode);
+        attachmentItem.dispatchEvent(event);
       }
     }
 
@@ -1213,6 +1218,7 @@ function attachToCloud(aProvider)
       i++;
     });
 
+    dispatchAttachmentBucketEvent("attachments-uploading", attachments);
     SetLastAttachDirectory(files[files.length-1]);
   }
 }
@@ -1261,10 +1267,13 @@ function convertListItemsToCloudAttachment(aItems, aProvider)
       listener.onStopRequest(null, null, ex.result);
     }
   }
-  if (convertedAttachments.length)
+
+  if (convertedAttachments.length) {
+    dispatchAttachmentBucketEvent("attachments-converted", convertedAttachments);
     Services.obs.notifyObservers(convertedAttachments,
                                  "mail:attachmentsConverted",
                                  aProvider.accountKey);
+  }
 }
 
 /**
@@ -1335,14 +1344,11 @@ function convertListItemsToRegularAttachment(aItems)
 
     convertedAttachments.appendElement(item.attachment, false);
   }
-  let bucket = document.getElementById("attachmentBucket");
-  let event = document.createEvent("CustomEvent");
-  event.initCustomEvent("attachments-converted", true, true, convertedAttachments);
-  bucket.dispatchEvent(event);
 
+  dispatchAttachmentBucketEvent("attachments-converted", convertedAttachments);
   Services.obs.notifyObservers(convertedAttachments,
                                "mail:attachmentsConverted", null);
-                               
+
   // We leave the content location in for the notifications because
   // it may be needed to identify the attachment. But clear it out now.
   for (let [,item] in Iterator(aItems))
@@ -3655,9 +3661,7 @@ function AddAttachments(aAttachments, aCallback)
     gContentChanged = true;
 
     UpdateAttachmentBucket(true);
-    let event = document.createEvent("CustomEvent");
-    event.initCustomEvent("attachments-added", true, true, addedAttachments);
-    bucket.dispatchEvent(event);
+    dispatchAttachmentBucketEvent("attachments-added", addedAttachments);
   }
 
   return items;
@@ -3762,10 +3766,7 @@ function RemoveAllAttachments()
     child.attachment = null;
   }
 
-  let event = document.createEvent("CustomEvent");
-  event.initCustomEvent("attachments-removed", true, true, removedAttachments);
-  bucket.dispatchEvent(event);
-
+  dispatchAttachmentBucketEvent("attachments-removed", removedAttachments);
   UpdateAttachmentBucket(false);
   CheckForAttachmentNotification(null);
 }
@@ -3822,11 +3823,7 @@ function RemoveSelectedAttachment()
     }
 
     gContentChanged = true;
-
-    let event = document.createEvent("CustomEvent");
-    event.initCustomEvent("attachments-removed", true, true,
-                          removedAttachments);
-    bucket.dispatchEvent(event);
+    dispatchAttachmentBucketEvent("attachments-removed", removedAttachments);
   }
   CheckForAttachmentNotification(null);
 }
@@ -4723,4 +4720,17 @@ function getPref(aPrefName, aIsComplex) {
     default: // includes nsIPrefBranch.PREF_INVALID
       return null;
   }
+}
+
+/**
+ * Helper function to dispatch a CustomEvent to the attachmentbucket.
+ *
+ * @param aEventType the name of the event to fire.
+ * @param aData any detail data to pass to the CustomEvent.
+ */
+function dispatchAttachmentBucketEvent(aEventType, aData) {
+  let bucket = document.getElementById("attachmentBucket");
+  let event = document.createEvent("CustomEvent");
+  event.initCustomEvent(aEventType, true, true, aData);
+  bucket.dispatchEvent(event);
 }
