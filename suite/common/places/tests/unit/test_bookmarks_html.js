@@ -210,6 +210,7 @@ add_test(function test_import_new()
   } catch(ex) { do_throw("couldn't import the exported file to folder: " + ex); }
   testCanonicalBookmarks(testFolder); 
   bmsvc.removeFolder(testFolder);
+  */
 
   testImportedBookmarks();
 
@@ -281,7 +282,6 @@ add_test(function test_import_ontop()
   try {
     importer.importHTMLFromFile(gBookmarksFileNew, true);
   } catch(ex) { do_throw("couldn't import the exported file: " + ex); }
-  */
 
   testImportedBookmarks();
 
