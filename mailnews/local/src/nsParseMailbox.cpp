@@ -1729,6 +1729,7 @@ nsParseNewMailState::Init(nsIMsgFolder *serverFolder, nsIMsgFolder *downloadFold
                           nsIOutputStream *aOutputStream)
 {
   nsresult rv;
+  Clear();
   m_rootFolder = serverFolder;
   m_msgWindow = aMsgWindow;
   m_downloadFolder = downloadFolder;
