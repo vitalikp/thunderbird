@@ -295,6 +295,8 @@ nsPop3Sink::BeginMailDelivery(bool uidlDownload, nsIMsgWindow *aMsgWindow, bool*
   if (!uidlDownload)
     FindPartialMessages();
 
+  m_folder->GetNumNewMessages(false, &m_numNewMessagesInFolder);
+
 #ifdef DEBUG
   printf("Begin mail message delivery.\n");
 #endif
@@ -567,7 +569,6 @@ nsPop3Sink::IncorporateBegin(const char* uidlString,
   if (m_uidlDownload)
     m_newMailParser->DisableFilters();
 
-  m_folder->GetNumNewMessages(false, &m_numNewMessagesInFolder);
   nsCOMPtr <nsIMsgFolder> serverFolder;
   rv = GetServerFolder(getter_AddRefs(serverFolder));
   if (NS_FAILED(rv)) return rv;
