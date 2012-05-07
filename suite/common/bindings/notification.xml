@@ -1417,7 +1417,7 @@
     </implementation>
 
     <handlers>
-      <handler event="DOMUpdatePageReport" phase="capturing">
+      <handler event="DOMUpdatePageReport">
         <![CDATA[
           var browser = this.activeBrowser;
           if (!browser.pageReport)
@@ -1479,7 +1479,7 @@
         ]]>
       </handler>
 
-      <handler event="PluginCrashed">
+      <handler event="PluginCrashed" phase="capturing">
         <![CDATA[
           var plugin = event.target;
           // Since we are expecting also untrusted events, make sure
@@ -1605,7 +1605,7 @@
         ]]>
       </handler>
 
-      <handler event="PluginOutdated">
+      <handler event="PluginOutdated" phase="capturing">
         <![CDATA[
           var message = this._stringBundle.GetStringFromName("outdatedpluginsMessage.title");
           var buttons = [{
@@ -1620,7 +1620,7 @@
         ]]>
       </handler>
 
-      <handler event="npapi-carbon-event-model-failure">
+      <handler event="npapi-carbon-event-model-failure" phase="capturing">
         <![CDATA[
           function callback() {
             // Notify all windows that an application quit has been requested.
@@ -1666,7 +1666,7 @@
         ]]>
       </handler>
 
-      <handler event="PluginNotFound">
+      <handler event="PluginNotFound" phase="capturing">
         <![CDATA[
           var plugin  = event.target;
           // For broken non-object plugin tags, register a click handler so
@@ -1699,7 +1699,7 @@
         ]]>
       </handler>
 
-      <handler event="PluginBlocklisted">
+      <handler event="PluginBlocklisted" phase="capturing">
         <![CDATA[
           var messageString = this._stringBundle.GetStringFromName("blockedpluginsMessage.title");
           var buttons = [{
@@ -1718,7 +1718,7 @@
         ]]>
       </handler>
 
-      <handler event="PluginDisabled">
+      <handler event="PluginDisabled" phase="capturing">
         <![CDATA[
           var plugin  = event.target;
           // Since we are expecting also untrusted events, make sure
@@ -1734,7 +1734,7 @@
         ]]>
       </handler>
 
-      <handler event="NewPluginInstalled">
+      <handler event="NewPluginInstalled" phase="capturing">
         <![CDATA[
           this.missingPlugins = {};
 
