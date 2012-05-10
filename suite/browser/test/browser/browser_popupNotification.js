@@ -162,6 +162,8 @@ var tests = [
     },
     onHidden: function (popup) {
       ok(this.notifyObj.mainActionClicked, "mainAction was clicked");
+      ok(!this.notifyObj.dismissalCallbackTriggered, "dismissal callback wasn't triggered");
+      ok(this.notifyObj.removedCallbackTriggered, "removed callback triggered");
     }
   },
   { // Test #1
@@ -175,6 +177,8 @@ var tests = [
     },
     onHidden: function (popup) {
       ok(this.notifyObj.secondaryActionClicked, "secondaryAction was clicked");
+      ok(!this.notifyObj.dismissalCallbackTriggered, "dismissal callback wasn't triggered");
+      ok(this.notifyObj.removedCallbackTriggered, "removed callback triggered");
     }
   },
   { // Test #2
@@ -223,9 +227,8 @@ var tests = [
     },
     onHidden: function (popup) {
       // actually remove the notification to prevent it from reappearing
-      ok(!wrongBrowserNotificationObject.dismissalCallbackTriggered, "dismissal callback wasn't called");
+      ok(wrongBrowserNotificationObject.dismissalCallbackTriggered, "dismissal callback triggered due to tab switch");
       wrongBrowserNotification.remove();
-      ok(!wrongBrowserNotificationObject.dismissalCallbackTriggered, "dismissal callback wasn't called after remove()");
       ok(wrongBrowserNotificationObject.removedCallbackTriggered, "removed callback triggered");
       wrongBrowserNotification = null;
     },
@@ -261,6 +264,8 @@ var tests = [
       this.notification2.remove();
     },
     onHidden: function (popup) {
+      ok(!this.notifyObj.dismissalCallbackTriggered, "dismissal callback wasn't triggered");
+      ok(this.notifyObj.removedCallbackTriggered, "removed callback triggered");
     }
   },
   // Test that two notifications with different IDs are displayed
@@ -584,6 +589,24 @@ var tests = [
     onHidden: function (popup) {
       ok(this.notifyObj.dismissalCallbackTriggered, "dismissal callback triggered");
       this.notification.remove();
+      ok(this.notifyObj.removedCallbackTriggered, "removed callback triggered");
+    }
+  },
+  // Test notification is removed when dismissed if removeOnDismissal is true
+  { // Test #20
+    run: function () {
+      this.notifyObj = new basicNotification();
+      this.notifyObj.addOptions({
+        removeOnDismissal: true
+      });
+      this.notification = showNotification(this.notifyObj);
+    },
+    onShown: function (popup) {
+      checkPopup(popup, this.notifyObj);
+      dismissNotification(popup);
+    },
+    onHidden: function (popup) {
+      ok(!this.notifyObj.dismissalCallbackTriggered, "dismissal callback wasn't triggered");
       ok(this.notifyObj.removedCallbackTriggered, "removed callback triggered");
     }
   },
