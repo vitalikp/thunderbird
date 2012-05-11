@@ -8,8 +8,6 @@
   <head>
     <script type="application/javascript;version=1.8"
             src="chrome://messenger/content/protovis-r2.6-modded.js"/>
-    <script type="text/javascript;version=1.8"
-            src="chrome://messenger/content/cloudfile/YouSendIt/management.js"/>
     <link rel="stylesheet"
         type="text/css"
         href="chrome://messenger/skin/preferences/preferences.css" />
@@ -25,22 +23,8 @@
       </div>
     </div>
 
-    <div id="provider-spacebox">
-      <div id="provider-space-visuals"></div>
-      <div id="provider-space">
-        <div>
-          <label>&cloudfileMgmt.usedSpace;</label>
-          <span id="file-space-used"/>
-          <span id="file-space-used-swatch" class="space-swatch"/>
-        </div>
-        <div>
-          <label>&cloudfileMgmt.unusedSpace;</label>
-          <span id="remaining-file-space"/>
-          <span id="remaining-file-space-swatch" class="space-swatch"/>
-        </div>
-        <div id="upgrade"><a href="https://www.yousendit.com/compareaccounts">&cloudfileMgmt.upgradeOffer;</a></div>
-      </div>
-      </div>
-    <div id="provider-account-settings"><a href="https://www.yousendit.com/myaccount">&youSendItMgmt.viewSettings;</a></div>
+    <div class="ysi-settings">
+      <a href="https://www.yousendit.com/myaccount">&youSendItMgmt.viewSettings;</a>
+    </div>
   </body>
 </html>

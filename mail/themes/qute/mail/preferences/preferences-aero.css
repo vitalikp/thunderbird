@@ -59,3 +59,7 @@ radio[pane]:hover {
 radio[pane][selected="true"] {
   background-color: rgb(193, 210, 238);
 }
+
+.ysi-settings {
+  margin-top: 90px;
+}

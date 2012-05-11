@@ -313,3 +313,8 @@ a {
 #provider-account-settings {
   -moz-box-flex: 0;
 }
+
+.ysi-settings {
+  text-align: center;
+  margin-top: 142px;
+}
