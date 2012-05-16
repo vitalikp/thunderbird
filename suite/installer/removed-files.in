@@ -149,6 +149,7 @@ components/wallet.xpt
 components/walleteditor.xpt
 components/walletpreview.xpt
 components/@DLL_PREFIX@walletviewers@DLL_SUFFIX@
+components/Webapps.js
 components/winhooks.xpt
 #ifdef XP_WIN
 components/wlltvwrs.dll
@@ -663,7 +664,6 @@ xpicleanup@BIN_SUFFIX@
   components/glautocomp.js
   components/jsmimeemitter.js
   components/Weave.js
-  components/Webapps.js
   components/browser.xpt
   components/components.manifest
   components/interfaces.manifest
