@@ -476,6 +476,9 @@ ircAccount.prototype = {
   // Request WHOIS information on a buddy when the user requests more
   // information.
   requestBuddyInfo: function(aBuddyName) {
+    if (!this.connected)
+      return;
+
     this.sendMessage("WHOIS", aBuddyName);
   },
   // Return an nsISimpleEnumerator of imITooltipInfo for a given nick.
