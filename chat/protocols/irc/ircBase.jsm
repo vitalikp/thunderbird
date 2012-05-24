@@ -169,12 +169,8 @@ function tryNewNick(aAccount, aMessage) {
   // Append the digits.
   newNick += newDigits;
 
-  // Set the accounts new nickname.
-  aAccount._nickname = newNick;
-  // Inform the user.
-  LOG(aMessage.params[1] + " is already in use, trying " + aAccount._nickname);
-
-  aAccount.sendMessage("NICK", aAccount._nickname); // Nick message.
+  LOG(aMessage.params[1] + " is already in use, trying " + newNick);
+  aAccount.sendMessage("NICK", newNick); // Nick message.
   return true;
 }
 
@@ -341,6 +337,9 @@ var ircBase = {
     "001": function(aMessage) { // RPL_WELCOME
       // Welcome to the Internet Relay Network <nick>!<user>@<host>
       this.reportConnected();
+      // Check if our nick has changed.
+      if (aMessage.params[0] != this._nickname)
+        this.changeBuddyNick(this._nickname, aMessage.params[0]);
       // If our status is Unavailable, tell the server.
       if (this.imAccount.statusInfo.statusType < Ci.imIStatusInfo.STATUS_AVAILABLE)
         this.observe(null, "status-changed");
@@ -828,6 +827,7 @@ var ircBase = {
       // TODO parse and display this?
       return false;
     },
+
     /*
      * NAMREPLY
      */
@@ -842,6 +842,7 @@ var ircBase = {
                                    "chat-buddy-add");
       return true;
     },
+
     "361": function(aMessage) { // RPL_KILLDONE
       // Non-generic
       // TODO What is this?
@@ -869,6 +870,7 @@ var ircBase = {
       // <mask> :End of LINKS list
       return true;
     },
+
     /*
      * Names
      */
