@@ -1006,6 +1006,7 @@ xpicleanup@BIN_SUFFIX@
   modules/SpatialNavigation.js
   modules/StringBundle.js
   modules/services-common/async.js
+  modules/services-sync/keys.js
   modules/services-common/log4moz.js
   modules/services-common/observers.js
   modules/services-common/preferences.js
