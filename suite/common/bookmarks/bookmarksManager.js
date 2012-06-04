@@ -541,9 +541,7 @@ var PlacesOrganizer = {
       return;
     }
     if (aNode.itemId != -1 &&
-        ((PlacesUtils.nodeIsFolder(aNode) &&
-          !PlacesUtils.nodeIsLivemarkContainer(aNode)) ||
-         PlacesUtils.nodeIsLivemarkItem(aNode) ||
+        ((PlacesUtils.nodeIsFolder(aNode) && !aNode._feedURI) ||
          PlacesUtils.nodeIsQuery(aNode))) {
       if (infoBox.getAttribute("minimal") == "true")
         infoBox.setAttribute("wasminimal", "true");
@@ -631,6 +629,7 @@ var PlacesOrganizer = {
         itemId = PlacesUtils._uri(aSelectedNode.uri);
 
       gEditItemOverlay.initPanel(itemId, { hiddenRows: ["folderPicker"],
+                                           titleOverride: aSelectedNode.title,
                                            forceReadOnly: readOnly });
 
       // Dynamically generated queries, like history date containers, have
