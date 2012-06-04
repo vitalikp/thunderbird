@@ -32,7 +32,7 @@ MOZ_APP_VERSION_TXT=${_topsrcdir}/$MOZ_BUILD_APP/config/version.txt
 MOZ_APP_VERSION=`cat $MOZ_APP_VERSION_TXT`
 THUNDERBIRD_VERSION=$MOZ_APP_VERSION
 
-MOZ_BRANDING_DIRECTORY=mail/branding/nightly
+MOZ_BRANDING_DIRECTORY=mail/branding/aurora
 MOZ_OFFICIAL_BRANDING_DIRECTORY=other-licenses/branding/thunderbird
 # This should usually be the same as the value MAR_CHANNEL_ID.
 # If more than one ID is needed, then you should use a comma separated list
