@@ -1417,8 +1417,8 @@ var specialTabs = {
    */
   setTabIcon: function(aTab, aIcon) {
     if (aIcon && this.mFaviconService)
-      this.mFaviconService.setAndLoadFaviconForPage(aTab.browser.currentURI,
-                                                    makeURI(aIcon), false);
+      this.mFaviconService.setAndFetchFaviconForPage(aTab.browser.currentURI,
+                                                     makeURI(aIcon), false);
 
     // Save this off so we know about it later,
     aTab.browser.mIconURL = aIcon;
