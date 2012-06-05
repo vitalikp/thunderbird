@@ -777,7 +777,7 @@ pref("browser.search.update.interval", 21600);
 // Disable remote debugging protocol logging
 pref("devtools.debugger.log", false);
 
-pref("mail.chat.enabled", true);
+pref("mail.chat.enabled", false);
 // Send typing notification in private conversations
 pref("purple.conversations.im.send_typing", true);
 
