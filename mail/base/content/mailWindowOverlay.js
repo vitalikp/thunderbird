@@ -1064,7 +1064,8 @@ function UpdateReplyButtons()
   let replyToSenderButton = document.getElementById("hdrReplyToSenderButton");
   if (replyToSenderButton)
   {
-    if (gFolderDisplay.selectedMessageIsFeed)
+    if (gFolderDisplay.selectedMessageIsFeed ||
+        gFolderDisplay.selectedMessageIsNews)
       replyToSenderButton.hidden = true;
     else if (smartReplyButton)
       replyToSenderButton.hidden = (buttonToShow == "reply");
