@@ -776,6 +776,7 @@ nsMsgCompose::ConvertAndLoadComposeWindow(nsString& aPrefix,
     {
       if (sigOnTop && !aSignature.IsEmpty())
       {
+        textEditor->InsertLineBreak();
         InsertDivWrappedTextAtSelection(aSignature,
                                         NS_LITERAL_STRING("moz-signature"));
         m_editor->EndOfDocument();
