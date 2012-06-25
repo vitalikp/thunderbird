@@ -25,7 +25,7 @@ DEFAULTS = {
 
   # URL of the default hg repository to clone for DOM Inspector.
   'INSPECTOR_REPO': 'http://hg.mozilla.org/dom-inspector/',
-  'INSPECTOR_REV':  'DOMI_2_0_11_RELEASE',
+  'INSPECTOR_REV':  'DOMI_2_0_12',
 
   # URL of the default hg repository to clone for Venkman.
   'VENKMAN_REPO': 'http://hg.mozilla.org/venkman/',
