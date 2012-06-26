@@ -512,9 +512,11 @@ function ircAccount(aProtocol, aImAccount) {
 
   // Split the account name into usable parts.
   let splitter = aImAccount.name.lastIndexOf("@");
-  this._nickname = aImAccount.name.slice(0, splitter);
-  this._originalNickname = this._nickname;
+  this._accountNickname = aImAccount.name.slice(0, splitter);
   this._server = aImAccount.name.slice(splitter + 1);
+
+  this._nickname = this._accountNickname;
+  this._requestedNickname = this._nickname;
 
   // For more information, see where these are defined in the prototype below.
   this._isOnQueue = [];
@@ -524,10 +526,14 @@ function ircAccount(aProtocol, aImAccount) {
 ircAccount.prototype = {
   __proto__: GenericAccountPrototype,
   _socket: null,
-  _originalNickname: null,
   _MODE_WALLOPS: 1 << 2, // mode 'w'
   _MODE_INVISIBLE: 1 << 3, // mode 'i'
   get _mode() 0,
+
+  // The nickname stored in the account name.
+  _accountNickname: null,
+  // The nickname that will be used when connecting.
+  _requestedNickname: null,
 
   get noNewlines() true,
 
@@ -873,6 +879,9 @@ ircAccount.prototype = {
     // Let the server know we're going to disconnect.
     this.quit();
 
+    // Reset original nickname for the next reconnect.
+    this._requestedNickname = this._accountNickname;
+
     // Give the server 2 seconds to respond, otherwise just forcefully
     // disconnect the socket. This will be cancelled if a response is heard from
     // the server.
@@ -1024,14 +1033,14 @@ ircAccount.prototype = {
                        "PASS <password not logged>");
     }
     // Send the nick message (section 3.1.2).
-    this.sendMessage("NICK", this._originalNickname);
+    this.sendMessage("NICK", this._requestedNickname);
 
     // Send the user message (section 3.1.3).
     // Use brandShortName as the username.
     let username =
       l10nHelper("chrome://branding/locale/brand.properties")("brandShortName");
     this.sendMessage("USER", [username, this._mode.toString(), "*",
-                              this._realname || this._originalNickname]);
+                              this._realname || this._requestedNickname]);
   },
 
   gotDisconnected: function(aError, aErrorMessage) {
