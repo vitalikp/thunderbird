@@ -333,6 +333,7 @@
 
 ; JavaScript components
 @BINPATH@/components/addonManager.js
+@BINPATH@/components/AitcComponents.manifest
 @BINPATH@/components/amContentHandler.js
 @BINPATH@/components/amWebInstallListener.js
 @BINPATH@/components/AppsService.js
