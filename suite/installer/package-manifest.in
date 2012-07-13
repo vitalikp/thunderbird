@@ -333,6 +333,7 @@
 
 ; JavaScript components
 @BINPATH@/components/addonManager.js
+@BINPATH@/components/Aitc.js
 @BINPATH@/components/AitcComponents.manifest
 @BINPATH@/components/amContentHandler.js
 @BINPATH@/components/amWebInstallListener.js
@@ -551,6 +552,7 @@
 #ifdef LIBXUL_SDK
 @BINPATH@/@PREF_DIR@/channel-prefs.js
 #endif
+@BINPATH@/@PREF_DIR@/services-aitc.js
 @BINPATH@/@PREF_DIR@/services-sync.js
 @BINPATH@/@PREF_DIR@/composer.js
 @BINPATH@/greprefs.js
