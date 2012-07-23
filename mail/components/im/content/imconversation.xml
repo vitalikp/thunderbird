@@ -970,9 +970,9 @@
             cti.removeAttribute("noTopic");
           }
           else {
-            topic = this.bundle.GetStringFromName("noTopic");
+            cti.removeAttribute("statusTooltiptext");
             cti.setAttribute("noTopic", "true");
-            cti.setAttribute("statusTooltiptext", topic);
+            topic = this.bundle.GetStringFromName("noTopic");
           }
           cti.setAttribute("statusMessage", topic);
           cti.setAttribute("statusMessageWithDash", " - " + topic);
@@ -1025,20 +1025,17 @@
           let name = this._conv.title;//.replace(/^([a-zA-Z0-9.]+)[@\s].*/, "$1");
           if (typingState == Ci.prplIConvIM.TYPING) {
             cti.setAttribute("typing", "true");
-            let typingMsg = this.bundle.formatStringFromName("chat.contactIsTyping",
-                                                             [name], 1);
-            cti.setAttribute("statusTypeTooltiptext", typingMsg);
-            cti.setAttribute("statusTooltiptext", typingMsg);
+            cti.setAttribute("statusTypeTooltiptext",
+                             this.bundle.formatStringFromName("chat.contactIsTyping",
+                                                              [name], 1));
             cti.setAttribute("statusMessage",
                              this.bundle.GetStringFromName("chat.isTyping"));
           }
           else if (typingState == Ci.prplIConvIM.TYPED) {
             cti.setAttribute("typed", "true");
-
-            let typedMsg = this.bundle.formatStringFromName("chat.contactHasStoppedTyping",
-                                                            [name], 1);
-            cti.setAttribute("statusTypeTooltiptext", typedMsg);
-            cti.setAttribute("statusTooltiptext", typedMsg);
+            cti.setAttribute("statusTypeTooltiptext",
+                             this.bundle.formatStringFromName("chat.contactHasStoppedTyping",
+                                                              [name], 1));
             cti.setAttribute("statusMessage",
                              this.bundle.GetStringFromName("chat.hasStoppedTyping"));
           }
@@ -1093,7 +1090,6 @@
             cti.setAttribute("statusMessage", statusString + statusText);
             cti.setAttribute("status", Status.toAttribute(statusType));
             cti.setAttribute("statusTypeTooltiptext", statusString);
-            cti.setAttribute("statusTooltiptext", statusString + statusText);
             this.updateTyping();
           }
        ]]>
