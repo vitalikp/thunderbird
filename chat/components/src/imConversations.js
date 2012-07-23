@@ -101,6 +101,7 @@ UIConversation.prototype = {
 
     delete this._currentTargetId;
     this.notifyObservers(this, "ui-conversation-closed");
+    Services.obs.notifyObservers(this, "ui-conversation-closed", null);
     return true;
   },
 
@@ -394,7 +395,6 @@ ConversationsService.prototype = {
       delete this._uiConv[aPurpleConversation.id];
       if (contactId.value)
         delete this._uiConvByContactId[contactId.value];
-      Services.obs.notifyObservers(uiConv, "ui-conversation-closed", null);
     }
     this.forgetConversation(aPurpleConversation);
   },
