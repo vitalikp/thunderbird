@@ -892,7 +892,8 @@ ircAccount.prototype = {
 
   // aComponents implements prplIChatRoomFieldValues.
   joinChat: function(aComponents) {
-    let params = [aComponents.getValue("channel")];
+    let channel = aComponents.getValue("channel");
+    let params = [channel];
     let password = aComponents.getValue("password");
     if (password)
       params.push(password);
