@@ -165,7 +165,7 @@ ProcessBodyAsAttachment(MimeObject *obj, nsMsgAttachmentData **data)
   if (! id)
   {
     delete [] *data;
-    *data = nullptr;
+    *data = nsnull;
     PR_FREEIF(id_imap);
     return NS_ERROR_OUT_OF_MEMORY;
   }
@@ -190,7 +190,7 @@ ProcessBodyAsAttachment(MimeObject *obj, nsMsgAttachmentData **data)
     if (!tmp->m_url || NS_FAILED(rv))
     {
       delete [] *data;
-      *data = nullptr;
+      *data = nsnull;
       PR_FREEIF(id);
       PR_FREEIF(id_imap);
       return NS_ERROR_OUT_OF_MEMORY;
