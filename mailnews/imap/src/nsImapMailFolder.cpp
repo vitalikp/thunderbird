@@ -8259,6 +8259,16 @@ nsImapMailFolder::CopyFileToOfflineStore(nsIFile *srcFile, nsMsgKey msgKey)
 
       if (NS_SUCCEEDED(rv) && offlineStore)
       {
+        PRInt64 curOfflineStorePos = 0;
+        nsCOMPtr<nsISeekableStream> seekable = do_QueryInterface(offlineStore);
+        if (seekable)
+          seekable->Tell(&curOfflineStorePos);
+        else
+        {
+          NS_ERROR("needs to be a random store!");
+          return NS_ERROR_FAILURE;
+        }
+
         nsCOMPtr<nsIInputStream> inputStream;
         nsCOMPtr<nsIMsgParseMailMsgState> msgParser =
           do_CreateInstance(NS_PARSEMAILMSGSTATE_CONTRACTID, &rv);
@@ -8296,6 +8306,10 @@ nsImapMailFolder::CopyFileToOfflineStore(nsIFile *srcFile, nsMsgKey msgKey)
 
           msgParser->FinishHeader();
           PRUint32 resultFlags;
+          fakeHdr->SetMessageOffset(curOfflineStorePos);
+          char storeToken[100];
+          PR_snprintf(storeToken, sizeof(storeToken), "%lld", curOfflineStorePos);
+          fakeHdr->SetStringProperty("storeToken", storeToken);
           fakeHdr->OrFlags(nsMsgMessageFlags::Offline | nsMsgMessageFlags::Read, &resultFlags);
           fakeHdr->SetOfflineMessageSize(fileSize);
           fakeHdr->SetUint32Property("pseudoHdr", 1);
