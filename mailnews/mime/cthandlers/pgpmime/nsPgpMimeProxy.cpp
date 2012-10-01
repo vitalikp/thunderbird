@@ -279,7 +279,7 @@ nsPgpMimeProxy::Init()
 
   mDecryptor = do_CreateInstance(PGPMIME_JS_DECRYPTOR_CONTRACTID, &rv);
   if (NS_FAILED(rv))
-    mDecryptor = nullptr;
+    mDecryptor = nsnull;
 
   return NS_OK;
 }
