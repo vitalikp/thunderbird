@@ -40,4 +40,4 @@ MOZ_OFFICIAL_BRANDING_DIRECTORY=other-licenses/branding/thunderbird
 # of values.
 ACCEPTED_MAR_CHANNEL_IDS=thunderbird-comm-release
 # The MAR_CHANNEL_ID must not contain the following 3 characters: ",\t "
-MAR_CHANNEL_ID=thunderbird-comm-beta
+MAR_CHANNEL_ID=thunderbird-comm-release
