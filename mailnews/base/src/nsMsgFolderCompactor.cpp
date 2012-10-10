@@ -440,7 +440,7 @@ nsFolderCompactState::FinishCompact()
     if (NS_SUCCEEDED(rv))
       rv = tempSummaryFile->CreateUnique(nsIFile::NORMAL_FILE_TYPE, 0600);
 
-    nsAutoCString tempSummaryFileName;
+    nsCAutoString tempSummaryFileName;
     if (NS_SUCCEEDED(rv))
       rv = tempSummaryFile->GetNativeLeafName(tempSummaryFileName);
 
