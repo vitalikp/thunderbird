@@ -132,14 +132,13 @@ XMPPSession.prototype = {
   },
 
   /* XEP-0078: Non-SASL Authentication */
-  startLegacyAuth: function(aStreamId) {
+  startLegacyAuth: function() {
     if (!this._encrypted && this._connectionSecurity == "require_tls") {
       this.onError(Ci.prplIAccount.ERROR_ENCRYPTION_ERROR,
                    _("connection.error.startTLSNotSupported"));
       return;
     }
 
-    this._streamId = aStreamId;
     this.onXmppStanza = this.stanzaListeners.legacyAuth;
     let s = Stanza.iq("get", null, this._domain,
                       Stanza.node("query", Stanza.NS.auth, null,
@@ -260,7 +259,11 @@ XMPPSession.prototype = {
 
       let mechs = aStanza.getElement(["mechanisms"]);
       if (!mechs) {
-        this._networkError(_("connection.error.noAuthMec"));
+        let auth = aStanza.getElement(["auth"]);
+        if (auth && auth.uri == Stanza.NS.auth_feature)
+          this.startLegacyAuth();
+        else
+          this._networkError(_("connection.error.noAuthMec"));
         return;
       }
 
@@ -274,8 +277,13 @@ XMPPSession.prototype = {
       mechs = mechs.getChildren("mechanism");
       for each (let m in mechs) {
         let mech = m.innerText;
-        if (mech == "PLAIN" && !this._encrypted)
+        if (mech == "PLAIN" && !this._encrypted) {
+          // If PLAIN is proposed over an unencrypted connection,
+          // remember that it's a possibility but don't bother
+          // checking if the user allowed it until we have verified
+          // that nothing more secure is available.
           canUsePlain = true;
+        }
         else if (authMechanisms.hasOwnProperty(mech)) {
           selectedMech = mech;
           break;
@@ -448,7 +456,8 @@ XMPPSession.prototype = {
         children.push(Stanza.node("digest", null, null, digest));
       }
       else if ("password" in values) {
-        if (this._connectionSecurity != "allow_unencrypted_plain_auth") {
+        if (!this._encrypted &&
+            this._connectionSecurity != "allow_unencrypted_plain_auth") {
           this.onError(Ci.prplIAccount.ERROR_AUTHENTICATION_IMPOSSIBLE,
                        _("connection.error.notSendingPasswordInClear"));
           return;
