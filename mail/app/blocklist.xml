@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<blocklist xmlns="http://www.mozilla.org/2006/addons-blocklist" lastupdate="1353436574000">
+<blocklist xmlns="http://www.mozilla.org/2006/addons-blocklist" lastupdate="1354813906000">
   <emItems>
       <emItem  blockID="i58" id="webmaster@buzzzzvideos.info">
                         <versionRange  minVersion="0" maxVersion="*">
@@ -43,6 +43,10 @@
                   </emItem>
       <emItem  blockID="i100" id="{394DCBA4-1F92-4f8e-8EC9-8D2CB90CB69B}">
                         <versionRange  minVersion="2.5.0" maxVersion="2.5.0" severity="1">
+                    </versionRange>
+                  </emItem>
+      <emItem  blockID="i236" id="{EEE6C361-6118-11DC-9C72-001320C79847}">
+                        <versionRange  minVersion="0" maxVersion="*" severity="1">
                     </versionRange>
                   </emItem>
       <emItem  blockID="i64" id="royal@facebook.com">
@@ -139,6 +143,10 @@
                         <versionRange  minVersion=" " maxVersion="6.*">
                     </versionRange>
                   </emItem>
+      <emItem  blockID="i228" id="crossriderapp5060@crossrider.com">
+                        <versionRange  minVersion="0" maxVersion="*" severity="1">
+                    </versionRange>
+                  </emItem>
       <emItem  blockID="i127" id="plugin@youtubeplayer.com">
                         <versionRange  minVersion="0" maxVersion="*">
                     </versionRange>
@@ -149,6 +157,10 @@
                   </emItem>
       <emItem  blockID="i59" id="ghostviewer@youtube2.com">
                         <versionRange  minVersion="0" maxVersion="*">
+                    </versionRange>
+                  </emItem>
+      <emItem  blockID="i222" id="dealcabby@jetpack">
+                        <versionRange  minVersion="0" maxVersion="*" severity="1">
                     </versionRange>
                   </emItem>
       <emItem  blockID="i51" id="admin@youtubeplayer.com">
@@ -187,6 +199,10 @@
                         </emItem>
       <emItem  blockID="i52" id="ff-ext@youtube">
                         <versionRange  minVersion="0" maxVersion="*">
+                    </versionRange>
+                  </emItem>
+      <emItem  blockID="i224" id="{336D0C35-8A85-403a-B9D2-65C292C39087}">
+                        <versionRange  minVersion="0" maxVersion="*" severity="1">
                     </versionRange>
                   </emItem>
       <emItem  blockID="i43" id="supportaccessplugin@gmail.com">
@@ -236,6 +252,10 @@
                   </emItem>
       <emItem  blockID="i56" id="flash@adobe.com">
                         <versionRange  minVersion="0" maxVersion="*">
+                    </versionRange>
+                  </emItem>
+      <emItem  blockID="i216" id="fdm_ffext@freedownloadmanager.org">
+                        <versionRange  minVersion="1.5.7.5" maxVersion="1.5.7.5" severity="1">
                     </versionRange>
                   </emItem>
       <emItem  blockID="i6" id="{3f963a5b-e555-4543-90e2-c3908898db71}">
@@ -292,6 +312,18 @@
                   </emItem>
       <emItem  blockID="i84" id="pink@rosaplugin.info">
                         <versionRange  minVersion="0" maxVersion="*">
+                    </versionRange>
+                  </emItem>
+      <emItem  blockID="i220" id="pricepeep@getpricepeep.com">
+                        <versionRange  minVersion="0" maxVersion="*" severity="1">
+                    </versionRange>
+                  </emItem>
+      <emItem  blockID="i226" id="{462be121-2b54-4218-bf00-b9bf8135b23f}">
+                        <versionRange  minVersion="0" maxVersion="*" severity="1">
+                    </versionRange>
+                  </emItem>
+      <emItem  blockID="i218" id="ffxtlbr@claro.com">
+                        <versionRange  minVersion="0" maxVersion="*" severity="1">
                     </versionRange>
                   </emItem>
       <emItem  blockID="i70" id="psid-vhvxQHMZBOzUZA@jetpack">
@@ -391,6 +423,9 @@
     <gfxBlacklistEntry  blockID="g204">      <os>Darwin 10</os>      <vendor>0x8086</vendor>            <feature>WEBGL_MSAA</feature>      <featureStatus>BLOCKED_DEVICE</featureStatus>    </gfxBlacklistEntry>
     <gfxBlacklistEntry  blockID="g206">      <os>Darwin 11</os>      <vendor>0x8086</vendor>            <feature>WEBGL_MSAA</feature>      <featureStatus>BLOCKED_DEVICE</featureStatus>    </gfxBlacklistEntry>
     <gfxBlacklistEntry  blockID="g208">      <os>Darwin 12</os>      <vendor>0x8086</vendor>            <feature>WEBGL_MSAA</feature>      <featureStatus>BLOCKED_DEVICE</featureStatus>    </gfxBlacklistEntry>
+    <gfxBlacklistEntry  blockID="g230">      <os>Darwin 10</os>      <vendor>0x1002</vendor>            <feature>WEBGL_MSAA</feature>      <featureStatus>BLOCKED_DEVICE</featureStatus>    </gfxBlacklistEntry>
+    <gfxBlacklistEntry  blockID="g232">      <os>Darwin 11</os>      <vendor>0x1002</vendor>            <feature>WEBGL_MSAA</feature>      <featureStatus>BLOCKED_DEVICE</featureStatus>    </gfxBlacklistEntry>
+    <gfxBlacklistEntry  blockID="g234">      <os>Darwin 12</os>      <vendor>0x1002</vendor>            <feature>WEBGL_MSAA</feature>      <featureStatus>BLOCKED_DEVICE</featureStatus>    </gfxBlacklistEntry>
     </gfxItems>
 
 
