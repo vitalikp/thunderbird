@@ -1160,7 +1160,9 @@ IMAP_RFC3501_handler.prototype = {
     var response = "";
     for each (var box in people) {
       if (box.subscribed)
-        response += '* LSUB (' + box.flags.join(" ") + ') "' + box.delimiter +
+        response += '* LSUB (' + 
+                    ((this.kCapabilities.indexOf("LIST-EXTENDED") >= 0) ? '' : box.flags.join(" ")) +
+                    ') "' + box.delimiter +
                     '" "' + box.displayName + '"\0';
     }
     return response + "OK LSUB completed";
