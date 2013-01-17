@@ -8,14 +8,10 @@ ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
 ac_add_options --enable-update-packaging
 ac_add_options --enable-jemalloc
 ac_add_options --enable-signmar
-ac_add_options --enable-calendar
 
 # Needed to enable breakpad in application.ini
 export MOZILLA_OFFICIAL=1
 
-# Don't install Lightning into Thunderbird, but enable updates for created xpis
-export LIGHTNING_UPDATE_LOCATION=https://calendar.mozilla.org/update.php
-export DISABLE_LIGHTNING_INSTALL=1
 
 if test -n "${_PYMAKE}"; then
   mk_add_options MOZ_MAKE_FLAGS=-j4
