@@ -21,21 +21,21 @@ DEFAULTS = {
 
   # URL of the default hg repository to clone for ChatZilla.
   'CHATZILLA_REPO': 'http://hg.mozilla.org/chatzilla/',
-  # The stable revision to use for the next branch
-#  'CHATZILLA_REV':  'CHATZILLA_0_9_90_RELEASE',
+  # The stable revision to use
+  'CHATZILLA_REV':  'CHATZILLA_0_9_90_RELEASE',
 
   # URL of the default hg repository to clone for DOM Inspector.
   'INSPECTOR_REPO': 'http://hg.mozilla.org/dom-inspector/',
-  # The stable revision to use for the next branch
-#  'INSPECTOR_REV':  'DOMI_2_0_13_RELEASE',
+  # The stable revision to use
+  'INSPECTOR_REV':  'DOMI_2_0_13_RELEASE',
 
   # URL of the default hg repository to clone for Venkman.
   'VENKMAN_REPO': 'http://hg.mozilla.org/venkman/',
-  # The stable revision to use for the next branch
-#  'VENKMAN_REV':  'VENKMAN_RELEASE_0_9_89',
+  # The stable revision to use
+  'VENKMAN_REV':  'VENKMAN_RELEASE_0_9_89',
 
   # URL of the default hg repository to clone for Mozilla.
-  'MOZILLA_REPO': 'http://hg.mozilla.org/mozilla-central/',
+  'MOZILLA_REPO': 'http://hg.mozilla.org/releases/mozilla-aurora/',
 }
 
 REPO_SHORT_NAMES = {
