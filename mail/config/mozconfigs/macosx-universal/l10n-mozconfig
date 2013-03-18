@@ -7,7 +7,8 @@ if test -e "$topsrcdir/mail/config/version.txt"; then
   unset CXX
 fi
 
-. $topsrcdir/build/macosx/universal/mozconfig
+# Don't need the universal-specific includes, we're just repacking.
+#. $topsrcdir/build/macosx/universal/mozconfig
 
 # Universal builds override the default of mail (bug 575283 comment 29)
 ac_add_options --enable-application=mail
@@ -15,9 +16,7 @@ ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
 ac_add_options --enable-update-packaging
 ac_add_options --enable-codesighs
 ac_add_options --disable-install-strip
-
-# Make sure Lightning is also unified
-mk_add_options MOZ_POSTFLIGHT_ALL+=calendar/lightning/build/universal.mk
+ac_add_options --with-l10n-base=../../../releases/l10n/mozilla-aurora
 
 # For NSS symbols
 export MOZ_DEBUG_SYMBOLS=1
