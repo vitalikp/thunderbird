@@ -16,7 +16,7 @@ ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
 ac_add_options --enable-update-packaging
 ac_add_options --enable-codesighs
 ac_add_options --disable-install-strip
-ac_add_options --with-l10n-base=../../../releases/l10n/mozilla-aurora
+ac_add_options --with-l10n-base=../../../releases/l10n/mozilla-beta
 
 # For NSS symbols
 export MOZ_DEBUG_SYMBOLS=1
