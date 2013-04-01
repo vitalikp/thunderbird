@@ -272,6 +272,7 @@ function runTest(testNum) {
                           "---",                   null,
                           "context-openlinkintab", true,
                           "context-openlink",      true,
+                          "context-openlinkinprivatewindow", true,
                           "---",                   null,
                           "context-bookmarklink",  true,
                           "context-savelink",      true,
@@ -280,7 +281,6 @@ function runTest(testNum) {
                           "---",                   null,
                           "context-bookmarkpage",  true,
                           "context-savepage",      true,
-                          "context-sendpage",      true,
                           "---",                   null,
                           "context-metadata",      true]);
         closeContextMenu();
@@ -296,7 +296,6 @@ function runTest(testNum) {
                           "---",                   null,
                           "context-bookmarkpage",  true,
                           "context-savepage",      true,
-                          "context-sendpage",      true,
                           "---",                   null,
                           "context-metadata",      true]);
         closeContextMenu();
@@ -580,7 +579,7 @@ function runTest(testNum) {
                           "---",                 null,
                           "context-cut",         true,
                           "context-copy",        true,
-                          "context-paste",       true, // ignore clipboard state
+                          "context-paste",       null, // ignore clipboard state
                           "context-delete",      true,
                           "---",                 null,
                           "context-selectall",   true,
@@ -793,6 +792,7 @@ function runTest(testNum) {
                           "---",                  null,
                           "context-openlinkintab", true,
                           "context-openlink",      true,
+                          "context-openlinkinprivatewindow", true,
                           "---",                   null,
                           "context-bookmarklink",  true,
                           "context-savelink",      true,
