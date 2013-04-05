@@ -15,7 +15,6 @@ XPIDL_MODULE	= suitefeeds
 
 XPIDLSRCS = \
 	nsIFeedResultService.idl \
-	nsIFeedWriter.idl \
 	nsIWebContentConverterRegistrar.idl \
 	$(NULL)
 
