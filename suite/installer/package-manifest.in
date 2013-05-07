@@ -180,6 +180,9 @@
 @BINPATH@/components/dom_devicestorage.xpt
 @BINPATH@/components/dom_events.xpt
 @BINPATH@/components/dom_file.xpt
+#ifdef MOZ_GAMEPAD
+@BINPATH@/components/dom_gamepad.xpt
+#endif
 @BINPATH@/components/dom_geolocation.xpt
 @BINPATH@/components/dom_html.xpt
 @BINPATH@/components/dom_indexeddb.xpt
@@ -191,6 +194,7 @@
 @BINPATH@/components/dom_offline.xpt
 @BINPATH@/components/dom_permissionsettings.xpt
 @BINPATH@/components/dom_power.xpt
+@BINPATH@/components/dom_quota.xpt
 @BINPATH@/components/dom_range.xpt
 @BINPATH@/components/dom_settings.xpt
 @BINPATH@/components/dom_sidebar.xpt
