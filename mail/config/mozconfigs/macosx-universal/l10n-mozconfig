@@ -15,7 +15,7 @@ ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
 ac_add_options --enable-update-packaging
 ac_add_options --enable-codesighs
 ac_add_options --disable-install-strip
-ac_add_options --with-l10n-base=../../../releases/l10n/mozilla-aurora
+ac_add_options --with-l10n-base=../../../l10n
 
 # Make sure Lightning is also unified
 #mk_add_options MOZ_POSTFLIGHT_ALL+=calendar/lightning/build/universal.mk
