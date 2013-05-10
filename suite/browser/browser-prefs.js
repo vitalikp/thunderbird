@@ -325,7 +325,7 @@ pref("browser.offline-apps.notify", true);
 
 pref("browser.formfill.expire_days",        180);
 
-pref("mail.biff.show_new_alert",     true);
+pref("mail.biff.show_new_alert", false);
 
 pref("mailnews.ui.deleteMarksRead", true);
 
