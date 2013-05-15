@@ -2429,6 +2429,10 @@ ICAL.Binary = (function() {
       this.start = aData.start;
     }
 
+    if (aData && ('end' in aData) && ('duration' in aData)) {
+      throw new Error('cannot accept both end and duration');
+    }
+
     if (aData && 'end' in aData) {
       if (aData.end && !(aData.end instanceof ICAL.Time)) {
         throw new TypeError('.end must be an instance of ICAL.Time');
@@ -2583,10 +2587,6 @@ ICAL.Binary = (function() {
           this[prop] = 0;
         }
       }
-
-      if (aData && "factor" in aData) {
-        this.isNegative = (aData.factor == "-1");
-      }
     },
 
     reset: function reset() {
@@ -2627,6 +2627,10 @@ ICAL.Binary = (function() {
         }
         return str;
       }
+    },
+
+    toICALString: function() {
+      return this.toString();
     }
   };
 
@@ -2681,7 +2685,7 @@ ICAL.Binary = (function() {
       var num = parseInt(number, 10);
       if (ICAL.helpers.isStrictlyNaN(num)) {
         throw new Error(
-          'invalid duration value: Invalid number "' + number + '" after "' + letter + '"'
+          'invalid duration value: Invalid number "' + number + '" before "' + letter + '"'
         );
       }
       object[type] = num;
