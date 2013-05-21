@@ -12,10 +12,15 @@
 #   XPI_NAME = lightning # The extension path name
 #   XPI_PKGNAME = lightning-2.2.en-US.mac # The extension package name
 #   XPI_VERSION = 2.2 # The extension version
+#
+# The following variables are optional:
+#   XPI_NO_UNIVERAL = 1  # If set, no universal path is used on mac
 
 include $(MOZILLA_SRCDIR)/toolkit/mozapps/installer/package-name.mk
 
-ifdef UNIVERSAL_BINARY
+# Set the univeral path only if we are building a univeral binary and it was
+# not restricted by the calling makefile
+ifeq ($(UNIVERSAL_BINARY)|$(XPI_NO_UNIVERAL),1|)
 UNIVERSAL_PATH=universal/
 else
 UNIVERSAL_PATH=
