@@ -14,13 +14,13 @@
 #   XPI_VERSION = 2.2 # The extension version
 #
 # The following variables are optional:
-#   XPI_NO_UNIVERAL = 1  # If set, no universal path is used on mac
+#   XPI_NO_UNIVERSAL = 1  # If set, no universal path is used on mac
 
 include $(MOZILLA_SRCDIR)/toolkit/mozapps/installer/package-name.mk
 
 # Set the univeral path only if we are building a univeral binary and it was
 # not restricted by the calling makefile
-ifeq ($(UNIVERSAL_BINARY)|$(XPI_NO_UNIVERAL),1|)
+ifeq ($(UNIVERSAL_BINARY)|$(XPI_NO_UNIVERSAL),1|)
 UNIVERSAL_PATH=universal/
 else
 UNIVERSAL_PATH=
