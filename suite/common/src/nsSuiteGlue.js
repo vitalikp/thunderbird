@@ -204,7 +204,9 @@ SuiteGlue.prototype = {
         aWebProgress instanceof Components.interfaces.nsIDocShell &&
         aWebProgress.loadType & Components.interfaces.nsIDocShell.LOAD_CMD_NORMAL &&
         aWebProgress instanceof Components.interfaces.nsIDocShellHistory &&
-        aWebProgress.useGlobalHistory) {
+        aWebProgress.useGlobalHistory &&
+        aWebProgress instanceof Components.interfaces.nsILoadContext &&
+        !aWebProgress.usePrivateBrowsing) {
       switch (aLocation.scheme) {
         case "about":
         case "imap":
