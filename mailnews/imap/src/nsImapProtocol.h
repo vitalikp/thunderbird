@@ -603,8 +603,11 @@ private:
   nsRefPtr <nsMsgImapLineDownloadCache> m_downloadLineCache;
   nsRefPtr <nsMsgImapHdrXferInfo> m_hdrDownloadCache;
   nsCOMPtr <nsIImapHeaderInfo> m_curHdrInfo;
+  // mapping between mailboxes and the corresponding folder flags
+  nsDataHashtable<nsCStringHashKey, int32_t> m_standardListMailboxes;
   // mapping between special xlist mailboxes and the corresponding folder flags
   nsDataHashtable<nsCStringHashKey, int32_t> m_specialXListMailboxes;
+
 
   nsIImapHostSessionList * m_hostSessionList;
 
@@ -652,6 +655,7 @@ private:
       kListingForInfoAndDiscovery,
       kDiscoveringNamespacesOnly,
       kXListing,
+      kListingForFolderFlags,
       kListingForCreate
   };
   EMailboxHierarchyNameState  m_hierarchyNameState;
