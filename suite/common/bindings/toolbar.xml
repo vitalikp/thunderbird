@@ -262,6 +262,14 @@
            extends="chrome://communicator/content/bindings/toolbar.xml#grippytoolbar"
            display="xul:menubar"/>
 
+  <!-- Temporary workaround for bug 943804 -->
+  <binding id="toolbar-menubar-autohide"
+           extends="chrome://global/content/bindings/toolbar.xml#toolbar-menubar-autohide">
+    <content>
+      <children/>
+    </content>
+  </binding>
+
   <binding id="grippymenubar" extends="chrome://global/content/bindings/toolbar.xml#menubar">
     <content>
       <xul:hbox flex="1" class="toolbar-box">
