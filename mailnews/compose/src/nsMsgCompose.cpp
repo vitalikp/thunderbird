@@ -2641,8 +2641,15 @@ NS_IMETHODIMP QuotingOutputStreamListener::OnStopRequest(nsIRequest *request, ns
         {
           compFields->SetTo(to);
           compFields->SetCc(cc);
-          compFields->SetBcc(bcc);
+          // In case it's a reply to self, but it's not the actual source of the
+          // sent message, then we won't know the Bcc header. So set it only if
+          // it's not empty. If you have auto-bcc and removed the auto-bcc for
+          // the original mail, you will have to do it manually for this reply
+          // too.
+          if (!bcc.IsEmpty())
+            compFields->SetBcc(bcc);
           compFields->SetReplyTo(replyTo);
+          needToRemoveDup = true;
         }
         else if (mailFollowupTo.IsEmpty()) {
           // default behaviour for messages without Mail-Followup-To
@@ -2810,6 +2817,23 @@ NS_IMETHODIMP QuotingOutputStreamListener::OnStopRequest(nsIRequest *request, ns
                                               addressesToRemoveFromCc, resultStr);
         if (NS_SUCCEEDED(rv))
           _compFields->SetCc(resultStr.get());
+
+        if (_compFields->GetBcc())
+        {
+          // Remove addresses already in Cc from Bcc.
+          rv = parser->RemoveDuplicateAddresses(nsDependentCString(_compFields->GetBcc()),
+                                                nsDependentCString(_compFields->GetCc()),
+                                                resultStr);
+          if (NS_SUCCEEDED(rv) && !resultStr.IsEmpty())
+          {
+            // Remove addresses already in To from Bcc.
+            rv = parser->RemoveDuplicateAddresses(resultStr,
+                                                  nsDependentCString(_compFields->GetTo()),
+                                                  resultStr);
+          }
+          if (NS_SUCCEEDED(rv))
+            _compFields->SetBcc(resultStr.get());
+        }
       }
     }
   }
