@@ -2587,7 +2587,7 @@ NS_IMETHODIMP QuotingOutputStreamListener::OnStopRequest(nsIRequest *request, ns
 
               nsCString curIdentityEmail2;
               lookupIdentity2->GetEmail(curIdentityEmail2);
-              if (toEmailAddresses.Find(curIdentityEmail2) != kNotFound))
+              if (toEmailAddresses.Find(curIdentityEmail2) != kNotFound)
               {
                 // An identity among the recipients -> not reply-to-self.
                 // However, "From:me To:me" should be treated as
