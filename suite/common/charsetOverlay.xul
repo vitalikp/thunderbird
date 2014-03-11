@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE overlay SYSTEM "chrome://global/locale/charsetMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script>
+    Components.utils.import("resource://gre/modules/CharsetMenu.jsm");
+
+    function BuildCharsetMenu(aEvent)
+    {
+      var popup = aEvent.target;
+      popup.removeEventListener("popupshowing", BuildCharsetMenu);
+      CharsetMenu.build(popup);
+      if (popup.getAttribute("detectors") == "false") {
+        popup.firstChild.remove();
+        popup.firstChild.remove();
+      } else {
+        var menu = popup.firstChild;
+        menu.addEventListener("popupshowing", UpdateCharsetDetector);
+        menu.addEventListener("command", SelectCharsetDetector);
+        popup = menu.firstChild;
+        ["", "ja_parallel_state_machine", "ruprob", "ukprob"].forEach(
+          function(detector, index) {
+            popup.childNodes[index].setAttribute("detector", detector);
+          }
+        );
+      }
+    }
+
+    function UpdateCharsetMenu(aCharset, aNode)
+    {
+      var bundle = document.getElementById("charsetBundle");
+      var charset = bundle.getString(aCharset.toLowerCase());
+      // For substantially similar encodings, treat two encodings as the same
+      // for the purpose of the check mark.
+      if (charset == "ISO-8859-8-I")
+        charset = "windows-1255";
+      else if (charset == "gb18030")
+        charset = "gbk";
+      var menuitem = document.getElementById("charset." + charset);
+      menuitem.setAttribute("checked", "true");
+    }
+
+    function SelectCharsetDetector(aEvent)
+    {
+      const nsISupportsString = Components.interfaces.nsISupportsString;
+      var str = Components.classes["@mozilla.org/supports-string;1"]
+                          .createInstance(nsISupportsString);
+      str.data = aEvent.target.getAttribute("detector");
+      Services.prefs.setComplexValue("intl.charset.detector", nsISupportsString, str);
+    }
+
+    function UpdateCharsetDetector(aEvent)
+    {
+      aEvent.stopPropagation();
+      var detector = GetLocalizedStringPref("intl.charset.detector");
+      var menuitem = this.getElementsByAttribute("detector", detector).item(0);
+      if (menuitem)
+        menuitem.setAttribute("checked", "true");
+    }
+
+    addEventListener("load", function LoadCharsetMenu() {
+      removeEventListener("load", LoadCharsetMenu);
+      document.getElementById("charsetPopup")
+              .addEventListener("popupshowing", BuildCharsetMenu);
+    });
+  </script>
+
+  <stringbundleset>
+    <stringbundle id="charsetBundle"
+                  src="chrome://communicator/content/labelsencodings.properties"/>
+  </stringbundleset>
+
+  <menu id="charsetMenu"
+        label="&charsetMenu.label;"
+        accesskey="&charsetMenu.accesskey;">
+    <menupopup id="charsetPopup"/>
+  </menu>
+</overlay>

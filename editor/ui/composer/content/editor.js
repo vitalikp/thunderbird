@@ -622,11 +622,12 @@ function CheckAndSaveDocument(command, allowDontSave)
 
 // --------------------------- View menu ---------------------------
 
-function EditorSetDocumentCharacterSet(aCharset)
+function EditorSetCharacterSet(aEvent)
 {
   try {
     var editor = GetCurrentEditor();
-    editor.documentCharacterSet = aCharset;
+    if (aEvent.target.id.startsWith("charset."))
+      editor.documentCharacterSet = aEvent.target.id.slice("charset.".length);
     var docUrl = GetDocumentUrl();
     if( !IsUrlAboutBlank(docUrl))
     {

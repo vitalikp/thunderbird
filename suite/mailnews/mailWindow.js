@@ -572,3 +572,12 @@ function SetKeywords(aKeywords)
   // cache the keywords 
   gLastKeywords = aKeywords;
 }
+
+function MailSetCharacterSet(aEvent)
+{
+  if (aEvent.target.id.startsWith("charset.")) {
+    msgWindow.mailCharacterSet = aEvent.target.id.slice("charset.".length);
+    msgWindow.charsetOverride = true;
+  }
+  messenger.setDocumentCharset(msgWindow.mailCharacterSet);
+}
