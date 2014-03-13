@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE overlay SYSTEM "chrome://global/locale/charsetMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script>
+    Components.utils.import("resource://gre/modules/CharsetMenu.jsm");
+
+    function UpdateCharsetMenu(aCharset, aNode)
+    {
+      var bundle = document.getElementById("charsetBundle");
+      var charset = bundle.getString(aCharset.toLowerCase());
+      var menuitem = document.getElementById("charset." + charset);
+      menuitem.setAttribute("checked", "true");
+    }
+
+    function SelectCharsetDetector(aEvent)
+    {
+      const nsISupportsString = Components.interfaces.nsISupportsString;
+      var str = Components.classes["@mozilla.org/supports-string;1"]
+                          .createInstance(nsISupportsString);
+      str.data = aEvent.target.getAttribute("detector");
+      Services.prefs.setComplexValue("intl.charset.detector", nsISupportsString, str);
+    }
+
+    function UpdateCharsetDetector(aNode)
+    {
+      var detector = GetLocalizedStringPref("intl.charset.detector");
+      var menuitem = aNode.getElementsByAttribute("detector", detector).item(0);
+      if (menuitem)
+        menuitem.setAttribute("checked", "true");
+    }
+  </script>
+
+  <stringbundleset>
+    <stringbundle id="charsetBundle"
+                  src="chrome://communicator/content/labelsencodings.properties"/>
+  </stringbundleset>
+
+  <menu id="charsetMenu"
+        label="&charsetMenu.label;"
+        accesskey="&charsetMenu.accesskey;">
+    <menupopup id="charsetPopup" onpopupshowing="CharsetMenu.build(event);">
+      <menu id="charsetMenuAutodet"
+            label="&charsetMenuAutodet.label;"
+            accesskey="&charsetMenuAutodet.accesskey;"
+            onpopupshowing="UpdateCharsetDetector(this);"
+            oncommand="SelectCharsetDetector(event);">
+        <menupopup>
+          <menuitem type="radio"
+                    name="detectorGroup"
+                    detector=""
+                    label="&charsetMenuAutodet.off.label;"
+                    accesskey="&charsetMenuAutodet.off.accesskey;"/>
+          <menuitem type="radio"
+                    name="detectorGroup"
+                    detector="ja_parallel_state_machine"
+                    label="&charsetMenuAutodet.ja.label;"
+                    accesskey="&charsetMenuAutodet.ja.accesskey;"/>
+          <menuitem type="radio"
+                    name="detectorGroup"
+                    detector="ruprob"
+                    label="&charsetMenuAutodet.ru.label;"
+                    accesskey="&charsetMenuAutodet.ru.accesskey;"/>
+          <menuitem type="radio"
+                    name="detectorGroup"
+                    detector="ukprob"
+                    label="&charsetMenuAutodet.uk.label;"
+                    accesskey="&charsetMenuAutodet.uk.accesskey;"/>
+        </menupopup>
+      </menu>
+      <menuseparator id="charsetMenuSeparator"/>
+    </menupopup>
+  </menu>
+</overlay>
