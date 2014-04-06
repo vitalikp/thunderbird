@@ -1470,7 +1470,7 @@ function GenericSendMessage( msgType )
         updateComposeItems();
       }
       if (gMsgCompose && originalCharset != gMsgCompose.compFields.characterSet)
-        SetDocumentCharacterSet(gMsgCompose.compFields.characterSet);
+        ComposeSetCharacterSet(gMsgCompose.compFields.characterSet);
     }
   }
   else
