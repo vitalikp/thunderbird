@@ -17,8 +17,8 @@
 <!DOCTYPE dialog [
   <!ENTITY % filterEditorDTD SYSTEM "chrome://messenger/locale/FilterEditor.dtd" >
 %filterEditorDTD;
-  <!ENTITY % messengerDTD    SYSTEM "chrome://messenger/locale/messenger.dtd" >
-%messengerDTD;
+  <!ENTITY % msgFolderPickerOverlayDTD SYSTEM "chrome://messenger/locale/msgFolderPickerOverlay.dtd" >
+%msgFolderPickerOverlayDTD;
 ]>
 
 <bindings   id="filterBindings"
@@ -703,7 +703,7 @@
                        mode="filing"
                        class="menulist-menupopup"
                        showRecent="true"
-                       recentLabel="&recentFolders.label;"
+                       recentLabel="&recentfolders.label;"
                        showFileHereLabel="true"/>
       </xul:menulist>
     </content>
