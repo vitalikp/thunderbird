@@ -327,6 +327,9 @@ pref("browser.offline-apps.notify", true);
 
 pref("browser.formfill.expire_days",        180);
 
+// bug 1005566 - Disable seer until properly supported
+pref("network.seer.enabled", false);
+
 pref("mail.biff.show_new_alert",     true);
 
 pref("mailnews.ui.deleteMarksRead", true);
