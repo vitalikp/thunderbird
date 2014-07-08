@@ -2660,14 +2660,14 @@ calDavCalendar.prototype = {
             // ATTENDEES and/or interpreting the SCHEDULE-STATUS parameter which
             // could translate in the client sending out IMIP REQUESTS
             // for specific attendees.
-            return;
+            return false;
         }
 
         if (aItipItem.responseMethod == "REPLY") {
             // Get my participation status
             var attendee = aItipItem.getItemList({})[0].getAttendeeById(this.calendarUserAddress);
             if (!attendee) {
-                return;
+                return false;
             }
             // work around BUG 351589, the below just removes RSVP:
             aItipItem.setAttendeeStatus(attendee.id, attendee.participationStatus);
@@ -2715,7 +2715,7 @@ calDavCalendar.prototype = {
                         var responseXML = cal.xml.parseString(str);
                     } catch (ex) {
                         cal.LOG("CalDAV: Could not parse multistatus response: " + ex + "\n" + str);
-                        return;
+                        return false;
                     }
 
                     var remainingAttendees = [];
@@ -2773,6 +2773,7 @@ calDavCalendar.prototype = {
                                "Error preparing http channel");
             });
         }
+        return true;
     },
 
     mVerboseLogging: undefined,
