@@ -46,5 +46,6 @@
 #endif
     <em:unpack>true</em:unpack>
     <em:strictCompatibility>true</em:strictCompatibility>
+    <em:strictCompatibility>true</em:strictCompatibility>
   </Description>
 </RDF>
