@@ -1,4 +1,6 @@
+no_tooltool=1
 . "$topsrcdir/build/mozconfig.common"
+. "$topsrcdir/build/unix/mozconfig.linux32"
 
 ac_add_options --enable-application=suite
 
@@ -10,9 +12,6 @@ ac_add_options --enable-trace-malloc
 # Temporary options until bug 794378 is fixed
 ac_add_options --enable-gnomevfs
 ac_add_options --disable-gio
-
-CC=/tools/gcc-4.5/bin/gcc
-CXX=/tools/gcc-4.5/bin/g++
 
 export LDFLAGS="-static-libstdc++"
 export HOST_LDFLAGS="-static-libstdc++"
