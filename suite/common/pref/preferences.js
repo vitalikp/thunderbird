@@ -69,3 +69,53 @@ function PlaySound(aValue, aMail)
   else
     sound.beep();
 }
+
+function LoadEncodingLabels(aMenulist, aPref)
+{
+  var bundle = document.getElementById("bundle_prefutilities");
+  var defaultLabel = bundle.getString("labelDefaultFont");
+  var list = document.getElementById(aMenulist);
+  var encoding = aPref ? document.getElementById(aPref).defaultValue :
+    GuessDefaultEncoding();
+  bundle = document.getElementById("charsetTitlesBundle");
+  encoding = bundle.getString(encoding.toLowerCase() + ".title")
+                   .replace(/.*\(|\).*/g, "");
+  var item = list.firstChild.firstChild;
+  item.setAttribute("label", defaultLabel.replace("%font_family%", encoding));
+  while ((item = item.nextSibling))
+    item.setAttribute("label", bundle.getString(item.getAttribute("value").toLowerCase() + ".title"));
+}
+
+function GuessDefaultEncoding()
+{
+  switch (Components.classes["@mozilla.org/chrome/chrome-registry;1"]
+                    .getService(Components.interfaces.nsIXULChromeRegistry)
+                    .getSelectedLocale("global").split("-")[0]) {
+    case "ar": case "fa":
+      return "windows-1256";
+    case "ba": case "be": case "bg": case "kk": case "ky": case "mk":
+    case "ru": case "sah": case "sr": case "tg": case "tt": case "uk":
+      return "windows-1251";
+    case "cs": case "hr": case "sk":
+      return "windows-1250";
+    case "el":
+      return "iso-8859-7";
+    case "et": case "lt": case "lv":
+      return "windows-1257";
+    case "he":
+      return "windows-1255";
+    case "hu": case "pl": case "sl":
+      return "iso-8859-2";
+    case "ko":
+      return "euc-kr";
+    case "ku": case "tr":
+      return "windows-1254";
+    case "th":
+      return "windows-874";
+    case "vi":
+      return "windows-1258";
+    case "zh":
+      return "gbk";
+  }
+  return "windows-1252";
+}

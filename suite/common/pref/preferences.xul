@@ -35,6 +35,8 @@
                   src="chrome://global/locale/languageNames.properties"/>
     <stringbundle id="regionNamesBundle"
                   src="chrome://global/locale/regionNames.properties"/>
+    <stringbundle id="charsetTitlesBundle"
+                  src="chrome://messenger/locale/charsetTitles.properties"/>
   </stringbundleset>
 
   <tree id="prefsTree"
