@@ -155,7 +155,7 @@ define _PACKAGE_APP_EXTENSIONS
 @echo "Packaging $(dir).xpi..."
 if test -d "$(ABS_DIST)/extensions/$(dir)"; then \
 cd $(ABS_DIST)/extensions/$(dir)/; \
-$(ZIP) -r9mX ../$(dir).xpi *; \
+$(ZIP) -r9mX ../$(dir).xpi * -x \*/.mkdir.done; \
 cd ..; rm -rf $(ABS_DIST)/extensions/$(dir); \
 fi
 
