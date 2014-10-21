@@ -7,7 +7,6 @@ ac_add_options --enable-application=suite
 ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
 ac_add_options --enable-update-packaging
 ac_add_options --enable-optimize
-ac_add_options --enable-stdcxx-compat
 
 
 # Temporary options until bug 794378 is fixed.
@@ -29,3 +28,5 @@ mk_add_options MOZ_MAKE_FLAGS="-j2"
 
 #Use ccache
 ac_add_options --with-ccache=/usr/bin/ccache
+
+ac_add_options --disable-stdcxx-compat
