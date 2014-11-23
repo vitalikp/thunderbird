@@ -1736,7 +1736,7 @@
                                             .getService(Components.interfaces.amIWebInstallListener);
                 if (weblistener.onWebInstallRequested(installInfo.originator, sourceURI,
                                                       installInfo.installs, installInfo.installs.length)) {
-                  installs.forEach(function(aInstall) {
+                  installInfo.installs.forEach(function(aInstall) {
                     aInstall.install();
                   });
                 }
@@ -2970,7 +2970,7 @@
                                             .getService(Components.interfaces.amIWebInstallListener);
                 if (weblistener.onWebInstallRequested(installInfo.originator, sourceURI,
                                                       installInfo.installs, installInfo.installs.length)) {
-                  installs.forEach(function(aInstall) {
+                  installInfo.installs.forEach(function(aInstall) {
                     aInstall.install();
                   });
                 }
