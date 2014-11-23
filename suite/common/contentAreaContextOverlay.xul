@@ -331,7 +331,7 @@
                 label="&spellCheckEnable.label;"
                 type="checkbox"
                 accesskey="&spellCheckEnable.accesskey;"
-                oncommand="InlineSpellCheckerUI.toggleEnabled();"/>
+                oncommand="InlineSpellCheckerUI.toggleEnabled(window);"/>
       <menuitem id="spell-add-dictionaries-main"
                 label="&spellAddDictionaries.label;"
                 accesskey="&spellAddDictionaries.accesskey;"
