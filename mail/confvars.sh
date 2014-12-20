@@ -42,3 +42,4 @@ ACCEPTED_MAR_CHANNEL_IDS=thunderbird-comm-aurora
 MAR_CHANNEL_ID=thunderbird-comm-aurora
 # Enable generational GC on desktop.
 JSGC_GENERATIONAL=1
+MOZ_PROFILE_MIGRATOR=1
