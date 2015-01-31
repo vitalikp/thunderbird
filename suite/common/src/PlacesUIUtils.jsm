@@ -607,12 +607,12 @@ var PlacesUIUtils = {
   },
 
   _getTopBrowserWin: function PUIU__getTopBrowserWin() {
-    return focusManager.activeWindow.gPrivate ||
+    return this._getCurrentActiveWin().gPrivate ||
            Services.wm.getMostRecentWindow("navigator:browser");
   },
 
   _getCurrentActiveWin: function PUIU__getCurrentActiveWin() {
-    return focusManager.activeWindow;
+    return focusManager.activeWindow || Services.wm.getMostRecentWindow(null);
   },
 
   /**
@@ -781,13 +781,12 @@ var PlacesUIUtils = {
   /** aItemsToOpen needs to be an array of objects of the form:
     * {uri: string, isBookmark: boolean}
     */
-  _openTabset: function PUIU__openTabset(aItemsToOpen, aEvent) {
+  _openTabset: function (aItemsToOpen, aEvent, aWhere) {
     if (!aItemsToOpen.length)
       return;
 
     var urls = [];
-    for (var i = 0; i < aItemsToOpen.length; i++) {
-      var item = aItemsToOpen[i];
+    for (let item of aItemsToOpen) {
       if (item.isBookmark)
         this.markPageAsFollowedBookmark(item.uri);
       else
@@ -798,7 +797,8 @@ var PlacesUIUtils = {
 
     var browserWindow = this._getTopBrowserWin();
     if (browserWindow) {
-      browserWindow.openUILinkArrayIn(urls, browserWindow.whereToOpenLink(aEvent, false, true));
+      let where = aWhere || browserWindow.whereToOpenLink(aEvent, false, true);
+      browserWindow.openUILinkArrayIn(urls, where);
     }
     else {
       let win = this._getCurrentActiveWin();
@@ -807,12 +807,12 @@ var PlacesUIUtils = {
     }
   },
 
-  openContainerNodeInTabs: function PUIU_openContainerInTabs(aNode, aEvent) {
+  openContainerNodeInTabs: function PUIU_openContainerInTabs(aNode, aEvent, aWhere) {
     var urlsToOpen = PlacesUtils.getURLsForContainerNode(aNode);
     if (!this._confirmOpenInTabs(urlsToOpen.length))
       return;
 
-    this._openTabset(urlsToOpen, aEvent);
+    this._openTabset(urlsToOpen, aEvent, aWhere);
   },
 
   openURINodesInTabs: function PUIU_openURINodesInTabs(aNodes, aEvent) {
