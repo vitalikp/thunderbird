@@ -1099,7 +1099,7 @@ NS_IMETHODIMP nsMsgMdnGenerator::OnStopRunningUrl(nsIURI *url,
       default:
         exitString = errorStringNameForErrorCode(aExitCode);
         break;
--   }
+    }
 
     nsCOMPtr<nsISmtpService> smtpService(do_GetService(NS_SMTPSERVICE_CONTRACTID, &rv));
     NS_ENSURE_SUCCESS(rv,rv);
