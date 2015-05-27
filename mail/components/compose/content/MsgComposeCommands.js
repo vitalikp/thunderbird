@@ -2443,7 +2443,9 @@ function GenericSendMessage(msgType)
   var msgCompFields = gMsgCompose.compFields;
 
   Recipients2CompFields(msgCompFields);
-  msgCompFields.from = GetMsgIdentityElement().value;
+  let addresses = MailServices.headerParser
+                              .makeFromDisplayAddress(GetMsgIdentityElement().value);
+  msgCompFields.from = MailServices.headerParser.makeMimeHeader(addresses, 1);
   var subject = GetMsgSubjectElement().value;
   msgCompFields.subject = subject;
   Attachments2CompFields(msgCompFields);
