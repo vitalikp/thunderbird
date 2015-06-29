@@ -26,7 +26,7 @@ DEFAULTS = {
       'INSPECTOR_REV':  'SEA2_37_RELBRANCH',
 
     # URL of the default hg repository to clone for Mozilla.
-    'MOZILLA_REPO': 'https://hg.mozilla.org/releases/mozilla-aurora/',
+    'MOZILLA_REPO': 'https://hg.mozilla.org/releases/mozilla-beta/',
 }
 
 REPO_SHORT_NAMES = {
