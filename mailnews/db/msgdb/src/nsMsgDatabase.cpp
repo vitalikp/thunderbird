@@ -3547,6 +3547,9 @@ NS_IMETHODIMP nsMsgDatabase::CopyHdrFromExistingHdr(nsMsgKey key, nsIMsgDBHdr *e
       return NS_MSG_MESSAGE_NOT_FOUND;
 
     nsIMdbRow  *destRow = destMsgHdr->GetMDBRow();
+    if (!destRow)
+      return NS_ERROR_UNEXPECTED;
+
     err = destRow->SetRow(GetEnv(), sourceRow);
     if (NS_SUCCEEDED(err))
     {
