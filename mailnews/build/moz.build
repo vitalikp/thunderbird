@@ -8,6 +8,7 @@ SOURCES += [
 ]
 
 USE_LIBS += [
+    'mozalloc',
     'nspr',
 ]
 

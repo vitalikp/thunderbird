@@ -17,6 +17,7 @@ FINAL_LIBRARY = 'suite'
 JAR_MANIFESTS += ['jar.mn']
 
 USE_LIBS += [
+    'mozalloc',
     'nspr',
     'xul',
 ]
