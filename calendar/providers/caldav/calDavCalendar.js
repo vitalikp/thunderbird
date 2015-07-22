@@ -1885,6 +1885,7 @@ calDavCalendar.prototype = {
                 }
                 thisCalendar.setCalHomeSet(true);
                 thisCalendar.checkServerCaps(aChangeLogListener);
+                return;
             }
 
             // If we get here something must have gone wrong. Abort with a
