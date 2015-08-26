@@ -33,5 +33,3 @@ if [ -z "$CXX" ]; then
 fi
 
 . "$topsrcdir/build/mozconfig.cache"
-
-export SOCORRO_SYMBOL_UPLOAD_TOKEN_FILE=c:/builds/crash-stats-api.token
