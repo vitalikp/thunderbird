@@ -55,6 +55,7 @@ function calDavCalendar() {
     this.unmappedProperties = [];
     this.mUriParams = null;
     this.mItemInfoCache = {};
+    this.mDisabled = false;
     this.mCalHomeSet = null;
     this.mInboxUrl = null;
     this.mOutboxUrl = null;
@@ -398,6 +399,8 @@ calDavCalendar.prototype = {
 
     // readonly attribute AUTF8String type;
     get type() { return "caldav"; },
+
+    mDisabled: true,
 
     mCalendarUserAddress: null,
     get calendarUserAddress() {
@@ -1406,7 +1409,7 @@ calDavCalendar.prototype = {
                         " due to 404");
                 notifyListener(Components.results.NS_ERROR_FAILURE);
                 return;
-            } else if (request.responseStatus == 207 && thisCalendar.getProperty("disabled")) {
+            } else if (request.responseStatus == 207 && thisCalendar.mDisabled) {
                 // Looks like the calendar is there again, check its resource
                 // type first.
                 thisCalendar.setupAuthentication(aChangeLogListener);
@@ -1504,7 +1507,7 @@ calDavCalendar.prototype = {
      *                                         calendars.
      */
     getUpdatedItems: function caldav_getUpdatedItems(aUri, aChangeLogListener) {
-        if (this.getProperty("disabled")) {
+        if (this.mDisabled) {
             // check if maybe our calendar has become available
             this.setupAuthentication(aChangeLogListener);
             return;
@@ -1879,9 +1882,9 @@ calDavCalendar.prototype = {
 
             if (resourceType == kDavResourceTypeCalendar) {
                 // If this calendar was previously offline we want to recover
-                if (thisCalendar.getProperty("disabled")) {
-                    thisCalendar.setProperty("disabled", false);
-                    thisCalendar.readOnly = false;
+                if (thisCalendar.mDisabled) {
+                    thisCalendar.mDisabled = false;
+                    thisCalendar.mReadOnly = false;
                 }
                 thisCalendar.setCalHomeSet(true);
                 thisCalendar.checkServerCaps(aChangeLogListener);
@@ -2334,8 +2337,8 @@ calDavCalendar.prototype = {
             return;
         }
         localizedMessage = cal.calGetString("calendar", message , [this.mUri.spec]);
-        this.setProperty("disabled", true);
-        this.readOnly = true;
+        this.mReadOnly = true;
+        this.mDisabled = true;
         this.notifyError(aErrNo, localizedMessage);
         this.notifyError(modificationError
                          ? Components.interfaces.calIErrors.MODIFICATION_FAILED
