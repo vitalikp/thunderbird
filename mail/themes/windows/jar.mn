@@ -555,4 +555,5 @@ classic.jar:
   skin/classic/aero/messenger/shared/tabmail.css                   (../shared/mail/tabmail.css)
   skin/classic/aero/messenger/shared/addressbook.css               (../shared/mail/addressbook.css)
   skin/classic/aero/messenger/shared/accountProvisioner.css        (../shared/mail/accountProvisioner.css)
+  skin/classic/aero/messenger/icons/caption-buttons.svg            (mail/icons/caption-buttons.svg)
 #endif
