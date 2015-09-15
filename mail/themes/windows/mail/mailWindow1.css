@@ -556,7 +556,7 @@ treechildren::-moz-tree-image(subjectCol, imapdeleted) {
   }
 
   .titlebar-button {
-    display: -moz-box;
+    display: -moz-box !important;
     border: none;
     margin: 0 !important;
     padding: 10px 17px;
