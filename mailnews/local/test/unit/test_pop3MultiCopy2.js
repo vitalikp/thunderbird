@@ -77,7 +77,7 @@ add_task(function* maildirToMbox() {
   // Check for subjects. maildir order for messages may not match
   // order for creation, hence the array.includes.
   for (let subject of gTestSubjects) {
-    do_check_true(subjects.includes(subject));
+    do_check_true(subjects.indexOf(subject) >= 0);
   }
 
   // Make sure the body matches the message.
