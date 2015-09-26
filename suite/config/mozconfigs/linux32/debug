@@ -12,10 +12,6 @@ ac_add_options --enable-debug
 
 ac_add_options --enable-tests
 
-# Temporary patch to get Linux32 building
-# Bug 1187222
-ac_add_options --enable-default-toolkit=cairo-gtk2
-
 export CFLAGS="-gdwarf-2"
 export CXXFLAGS="-gdwarf-2"
 
