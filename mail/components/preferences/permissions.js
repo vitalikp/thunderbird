@@ -75,9 +75,11 @@ var gPermissionManager = {
     case nsIPermissionManager.DENY_ACTION:
       stringKey = "cannot";
       break;
-    case nsICookiePermission.ACCESS_ALLOW_FIRST_PARTY_ONLY:
-      stringKey = "canAccessFirstParty";
-      break;
+    // This condition is really hard to reach, I don't believe it
+    // can be set with the current mail UI.
+    //case nsICookiePermission.ACCESS_ALLOW_FIRST_PARTY_ONLY:
+    //  stringKey = "canAccessFirstParty";
+    //  break;
     case nsICookiePermission.ACCESS_SESSION:
       stringKey = "canSession";
       break;
