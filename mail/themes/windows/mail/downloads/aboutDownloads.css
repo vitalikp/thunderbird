@@ -22,14 +22,50 @@
   margin: 0;
 }
 
+/*
+ #msgDownloadsRichListBox > richlistitem.download {
+   height: 6em;
++  border-bottom: 1px solid #f1f1f1;
+ %ifndef WINDOWS_AERO
+   padding: 5px 8px;
+ %endif
+ }
+ 
++#clearDownloads {
++  margin-inline-start: 0;
++}
++
++#searchBox {
++  margin-inline-end: 0;
++}
++
+ .fileTypeIcon {
+   -moz-margin-end: 8px;
+ %ifdef WINDOWS_AERO
+   -moz-margin-start: 8px;
+ %endif
+   /* explicitly size the icon, so size doesn't vary on hidpi systems */
+   height: 32px;
+   width: 32px;
+*/
+
 #msgDownloadsRichListBox > richlistitem.download {
   height: 6em;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 @media (-moz-os-version: windows-xp) {
   #msgDownloadsRichListBox > richlistitem.download {
     padding: 5px 8px;
   }
+}
+
+#clearDownloads {
+  margin-inline-start: 0;
+}
+
+#searchBox {
+  margin-inline-end: 0;
 }
 
 .fileTypeIcon {
