@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<blocklist xmlns="http://www.mozilla.org/2006/addons-blocklist" lastupdate="1445462022000">
+<blocklist xmlns="http://www.mozilla.org/2006/addons-blocklist" lastupdate="1446845402000">
   <emItems>
       <emItem  blockID="i58" id="webmaster@buzzzzvideos.info">
                         <versionRange  minVersion="0" maxVersion="*">
@@ -388,6 +388,12 @@
                       <targetApplication  id="{3550f703-e582-4d05-9a08-453d09bdfdc6}">
                               <versionRange  minVersion="38.0a2" maxVersion="*" />
                           </targetApplication>
+                    </versionRange>
+                    <prefs>
+              </prefs>
+    </emItem>
+      <emItem  blockID="i1050" id="87aukfkausiopoawjsuifhasefgased278djasi@jetpack">
+                        <versionRange  minVersion="0" maxVersion="*" severity="3">
                     </versionRange>
                     <prefs>
               </prefs>
@@ -2747,6 +2753,10 @@
       <pluginItem  blockID="p1048">
                   <match name="filename" exp="(NPSWF32.*\.dll)|(NPSWF64.*\.dll)|(Flash\ Player\.plugin)" />                      <versionRange  minVersion="19.0" maxVersion="19.0.0.225" severity="0" vulnerabilitystatus="1"></versionRange>
                             <infoURL>https://get.adobe.com/flashplayer/</infoURL>
+          </pluginItem>
+      <pluginItem  blockID="p1052">
+                  <match name="filename" exp="JavaAppletPlugin\.plugin" />                      <versionRange  minVersion="Java 7 Update 11" maxVersion="Java 7 Update 11" severity="0" vulnerabilitystatus="1"></versionRange>
+                            <infoURL>https://java.com/</infoURL>
           </pluginItem>
     </pluginItems>
 
