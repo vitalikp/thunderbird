@@ -2915,6 +2915,7 @@ NS_IMETHODIMP nsImapMailFolder::UpdateImapMailboxStatus(
 
 NS_IMETHODIMP nsImapMailFolder::ParseMsgHdrs(nsIImapProtocol *aProtocol, nsIImapHeaderXferInfo *aHdrXferInfo)
 {
+  NS_ENSURE_ARG_POINTER(aHdrXferInfo);
   int32_t numHdrs;
   nsCOMPtr <nsIImapHeaderInfo> headerInfo;
   nsCOMPtr <nsIImapUrl> aImapUrl;
