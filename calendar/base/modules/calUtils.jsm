@@ -364,9 +364,9 @@ var cal = {
             }
             return email;
         }
-        return aToList.map(cbEmail)
-                      .filter(function (aVal, aInd, aArr) {return (aVal.length)})
-                      .join(', ');
+        return aAttendees.map(cbEmail)
+                         .filter(aVal => aVal.length > 0)
+                         .join(', ');
     },
 
     /**
