@@ -1944,11 +1944,6 @@ nsresult nsMsgCompose::CreateMessage(const char * originalMsgURI,
         if (NS_FAILED(rv)) return rv;
       }
 
-      // save the charset of a message being replied to because
-      // we need to use it when decoding RFC-2047-encoded author name
-      // with |charsetOverride|.
-      nsAutoCString originCharset(charset);
-
       bool replyInDefault = false;
       prefs->GetBoolPref("mailnews.reply_in_default_charset",
                           &replyInDefault);
@@ -1960,6 +1955,13 @@ nsresult nsMsgCompose::CreateMessage(const char * originalMsgURI,
                                                     EmptyString(), str);
         if (!str.IsEmpty())
           LossyCopyUTF16toASCII(str, charset);
+      }
+
+      // ReplyWithTemplate needs to always use the charset of the template,
+      // nothing else. That is passed in through the compFields.
+      if (type == nsIMsgCompType::ReplyWithTemplate) {
+         rv = compFields->GetCharacterSet(getter_Copies(charset));
+         NS_ENSURE_SUCCESS(rv,rv);
       }
 
       // No matter what, we should block x-windows-949 (our internal name)
