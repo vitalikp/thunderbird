@@ -1681,7 +1681,8 @@ function DoCommandClose()
 function DoCommandPrint()
 {
   try {
-    PrintUtils.print();
+    let editor = GetCurrentEditorElement();
+    PrintUtils.printWindow(editor.outerWindowID, editor);
   } catch(ex) {dump("#PRINT ERROR: " + ex + "\n");}
 }
 
