@@ -2,8 +2,6 @@
 
 ac_add_options --enable-application=mail
 ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
-ac_add_options --enable-profiling
-ac_add_options --disable-elf-hack # --enable-elf-hack conflicts with --enable-profiling
 ac_add_options --enable-calendar
 
 # Temporarily disabled due to bug 1269878, bug 1270018 (only affects nightlies).
