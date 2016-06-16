@@ -39,7 +39,7 @@ MOZ_APP_ID={3550f703-e582-4d05-9a08-453d09bdfdc6}
 # of values.
 ACCEPTED_MAR_CHANNEL_IDS=thunderbird-comm-beta,thunderbird-comm-release
 # The MAR_CHANNEL_ID must not contain the following 3 characters: ",\t "
-MAR_CHANNEL_ID=thunderbird-comm-beta
+MAR_CHANNEL_ID=thunderbird-comm-release
 # Enable generational GC on desktop.
 JSGC_GENERATIONAL=1
 MOZ_PROFILE_MIGRATOR=1
