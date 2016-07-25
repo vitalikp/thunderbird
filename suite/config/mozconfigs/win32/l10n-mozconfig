@@ -19,5 +19,10 @@ export MOZ_DEBUG_SYMBOLS=1
 # Needed to enable breakpad in application.ini
 export MOZILLA_OFFICIAL=1
 
+# Disable checking that add-ons are signed by the trusted root
+MOZ_ADDON_SIGNING=0
+# Disable enforcing that add-ons are signed by the trusted root
+MOZ_REQUIRE_SIGNING=0
+
 # To enable MSVC 2010 building
 . $topsrcdir/build/win32/mozconfig.vs2010
