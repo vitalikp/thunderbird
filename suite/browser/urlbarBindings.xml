@@ -679,5 +679,12 @@
       </xul:menupopup>
     </content>
   </binding>
+  
+  <!-- Note: this binding is applied to the autocomplete popup used in web page content. -->
+  <binding id="navigator-autocomplete-result-popup" extends="chrome://global/content/bindings/autocomplete.xml#autocomplete-result-popup">
+    <resources>
+    <stylesheet src="chrome://communicator/content/autocomplete.css"/>
+    </resources>
+  </binding>
 
 </bindings>

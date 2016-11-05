@@ -33,6 +33,12 @@ tabbrowser {
   -moz-binding: url("chrome://global/content/bindings/toolbarbutton.xml#toolbarbutton");
 }
 
+
+/* ::::: Autocomplete Bug 1300547 ::::: */
+#PopupAutoComplete {
+  -moz-binding: url("chrome://navigator/content/urlbarBindings.xml#navigator-autocomplete-result-popup");
+}
+
 /* ::::: urlbar autocomplete ::::: */
 
 #urlbar {
