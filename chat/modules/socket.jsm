@@ -82,7 +82,6 @@ var {classes: Cc, interfaces: Ci, results: Cr, utils: Cu} = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource:///modules/ArrayBufferUtils.jsm");
 Cu.import("resource:///modules/imXPCOMUtils.jsm");
-Cu.import("resource:///modules/hiddenWindow.jsm");
 
 // Network errors see: xpcom/base/nsError.h
 var NS_ERROR_MODULE_NETWORK = 2152398848;
@@ -158,7 +157,6 @@ var Socket = {
     this.port = aPort;
     this.disconnected = false;
 
-    this.window = getHiddenHTMLWindow();
     this._pendingData = [];
     delete this._stopRequestStatus;
 
@@ -459,20 +457,20 @@ var Socket = {
   _activateQueue: function() {
     if (this._handlingQueue)
       return;
-    this._handlingQueue =
-      this.window.requestIdleCallback(this._handleQueue.bind(this));
+    this._handlingQueue = true;
+    this._handleQueue();
   },
   // Asynchronously send each string to the handle data function.
-  _handleQueue: function(timing) {
+  _handleQueue: function() {
+    let begin = Date.now();
     while (this._pendingData.length) {
       this.onDataReceived(this._pendingData.shift());
-      // One pendingData entry generally takes less than 1ms to handle.
-      if (timing.timeRemaining() < 1)
+      // If more than 10ms have passed, stop blocking the thread.
+      if (Date.now() - begin > 10)
         break;
     }
     if (this._pendingData.length) {
-      this._handlingQueue =
-        this.window.requestIdleCallback(this._handleQueue.bind(this));
+      executeSoon(this._handleQueue.bind(this));
       return;
     }
     delete this._handlingQueue;
