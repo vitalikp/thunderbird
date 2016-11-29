@@ -174,8 +174,10 @@ var gAdvancedPane = {
   clearCache: function ()
   {
     try {
-      Services.cache.evictEntries(Components.interfaces.nsICache.STORE_ANYWHERE);
-    } catch(ex) {}
+      let cache = Components.classes["@mozilla.org/netwerk/cache-storage-service;1"]
+                            .getService(Components.interfaces.nsICacheStorageService);
+      cache.clear();
+    } catch (ex) {}
   },
 
   updateButtons: function (aButtonID, aPreferenceID)
