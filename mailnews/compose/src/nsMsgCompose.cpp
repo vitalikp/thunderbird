@@ -1010,8 +1010,9 @@ nsMsgCompose::Initialize(nsIMsgComposeParams *aParams,
     if (NS_FAILED(rv)) return rv;
 
     m_baseWindow = do_QueryInterface(treeOwner);
-
+#ifdef MOZ_SUITE
     window->GetDocShell()->SetAppType(nsIDocShell::APP_TYPE_EDITOR);
+#endif
   }
 
   MSG_ComposeFormat format;
@@ -4287,10 +4288,6 @@ nsMsgCompose::ReplaceFileURLs(nsAutoString &aData)
       nsresult rv = DataURLForFileURL(fileURL, dataURL);
       NS_ENSURE_SUCCESS(rv, rv);
       aData.Replace(fPos, end - fPos, dataURL);
-      int32_t gtAfter = aData.FindChar('>', fPos + dataURL.Length());
-      if (gtAfter != kNotFound) {
-        aData.Insert(NS_LITERAL_STRING(" moz-do-not-send='false'"), gtAfter);
-      }
       offset = fPos - 1;
     }
   }
@@ -4499,11 +4496,8 @@ nsMsgCompose::ProcessSignature(nsIMsgIdentity *identity, bool aQuoted, nsString 
       rv = DataURLForFileURL(NS_ConvertUTF8toUTF16(fileURL), dataURL);
       if (NS_SUCCEEDED(rv)) {
         sigOutput.Append(dataURL);
-        sigOutput.AppendLiteral("' moz-do-not-send='false' border=0>");
       }
-      else {
-        sigOutput.AppendLiteral("' border=0>");
-      }
+      sigOutput.AppendLiteral("' border=0>");
       sigOutput.AppendLiteral(htmlsigclose);
     }
   }
