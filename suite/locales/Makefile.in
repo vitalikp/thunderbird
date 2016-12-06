@@ -164,10 +164,8 @@ clobber-zip:
 repackage-zip: repackage-extensions
 
 repackage-extensions: $(STAGEDIST)
-	$(MAKE) -C $(DEPTH)/extensions/irc/locales repackage-zip-$(AB_CD) STAGEDIST=$(STAGEDIST)
 ifeq ($(MOZ_PACKAGER_FORMAT),omni)
 	$(MAKE) -C ../app pack-ext AB_CD=$(AB_CD) STAGEDIST=$(STAGEDIST)/extensions;
-	$(MAKE) -C ../app pack-ext AB_CD=$(AB_CD) STAGEDIST=$(STAGEDIST)/distribution/extensions;
 endif
 
 repackage-zip-%: $(call ESCAPE_WILDCARD,$(ZIP_IN)) $(STAGEDIST) libs-%
@@ -247,8 +245,6 @@ calendar-upload:
 # Hook into l10n.mk, providing extra arguments to l10n-repack.py
 ifdef NIGHTLY_BUILD
 MOZ_PKG_EXTRAL10N += extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}=$(DIST)/xpi-stage/lightning-$(AB_CD)
-else
-MOZ_PKG_EXTRAL10N += distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}=$(DIST)/xpi-stage/lightning-$(AB_CD)
 endif
 
 # Hook calendar targets to the mail non-pattern rules
@@ -263,6 +259,6 @@ endif
 # This is a generic target that will make a langpack, repack ZIP (+tarball)
 # builds, and repack and installer if applicable. It is called from the
 # tinderbox scripts. Alter it with caution.
-INSTALLERS_TARGETS = clobber-% $(CALENDAR_INSTALLERS_TARGETS) langpack-% repackage-win32-installer-% repackage-zip-%
+INSTALLERS_TARGETS = clobber-% langpack-% repackage-win32-installer-% repackage-zip-%
 installers-%: $(INSTALLERS_TARGETS)
 	@echo 'repackaging done'
