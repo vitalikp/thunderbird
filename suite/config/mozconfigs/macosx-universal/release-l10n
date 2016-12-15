@@ -1,8 +1,8 @@
-ac_add_options --with-l10n-base=../../../l10n
+ac_add_options --with-l10n-base=../../l10n
 ac_add_options --enable-application=suite
 ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
 
-. $topsrcdir/build/macosx/universal/mozconfig
+. $topsrcdir/build/macosx/local-mozconfig.common
 
 # Needed to enable breakpad in application.ini
 export MOZILLA_OFFICIAL=1
