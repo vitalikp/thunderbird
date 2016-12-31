@@ -80,17 +80,17 @@
   }
 
   #button-saveandclose {
-    -moz-image-region: rect(0px 144px 24px 120px);
+    -moz-image-region: rect(0px 696px 24px 672px);
   }
   #button-saveandclose[disabled="true"] {
-    -moz-image-region: rect(48px 144px 72px 120px);
+    -moz-image-region: rect(48px 696px 72px 672px);
   }
 
   toolbar[iconsize="small"] #button-saveandclose {
-    -moz-image-region: rect(0px 96px 16px 80px);
+    -moz-image-region: rect(0px 464px 16px 448px);
   }
   toolbar[iconsize="small"] #button-saveandclose[disabled="true"] {
-    -moz-image-region: rect(32px 96px 48px 80px);
+    -moz-image-region: rect(32px 464px 48px 448px);
   }
 
   #button-delete.cal-event-toolbarbutton {
