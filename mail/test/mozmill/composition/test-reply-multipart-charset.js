@@ -145,7 +145,9 @@ function test_replyEditAsNewForward_noPreview() {
   be_in_folder(folderToStoreMessages);
   mc.window.goDoCommand("cmd_toggleMessagePane");
 
-  subtest_replyEditAsNewForward_charset(1, "./format-flowed.eml", "windows-1252", null, false);
+  // Special test version for TB 51 since format-flowed.eml got added in TB 52 in bug 456053.
+  // subtest_replyEditAsNewForward_charset(1, "./format-flowed.eml", "windows-1252", null, false);
+  subtest_replyEditAsNewForward_charset(1, "./body-greek.eml", "ISO-8859-7", null, false);
   subtest_replyEditAsNewForward_charset(2, "./body-greek.eml", "ISO-8859-7", null, false);
   subtest_replyEditAsNewForward_charset(3, "./multipart-charset.eml", "EUC-KR", null, false);
 }
