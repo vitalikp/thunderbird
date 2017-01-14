@@ -23,8 +23,6 @@
        command="downloadmgr" modifiers="accel"/>
   <key id="key_addOnsManager" key="&addOnsManagerCmd.commandkey;"
        command="addonsmgr" modifiers="accel,shift"/>
-  <key id="key_errorConsole" key="&errorConsoleCmd.commandkey;"
-       command="Tasks:ErrorConsole" modifiers="accel,shift"/>
 </keyset>
 <commandset id="tasksCommands">
   <command id="Tasks:DataMan" oncommand="toDataManager();"/>
@@ -80,7 +78,7 @@
             <menupopup id="toolsPopup">
               <menuitem id="javascriptConsole" label="&errorConsoleCmd.label;"
                         accesskey="&errorConsoleCmd.accesskey;"
-                        key="key_errorConsole" command="Tasks:ErrorConsole"/>
+                        command="Tasks:ErrorConsole"/>
             </menupopup>
           </menu>
           <menuseparator id="sep_switchprofile"/>
