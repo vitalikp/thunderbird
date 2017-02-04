@@ -2678,10 +2678,14 @@ function updateRepeat(aSuppressDialogs, aItemRepeatCall) {
             // date, or the last occurrence's date in order to set the
             // repeat-until-datepicker with the same date.
             if (aItemRepeatCall && repeatDeck.selectedIndex == 1) {
+                let repeatDate;
                 if (!rule.isByCount || !rule.isFinite) {
-                    setElementValue("repeat-until-datepicker",
-                                    rule.isByCount ? "forever"
-                                                   : cal.dateTimeToJsDate(rule.untilDate.getInTimezone(cal.floating())));
+                    if (rule.isFinite) {
+                        repeatDate = rule.untilDate.getInTimezone(cal.floating());
+                        repeatDate = cal.dateTimeToJsDate(repeatDate);
+                    } else {
+                        repeatDate = "forever";
+                    }
                 } else {
                     // Try to recover the last occurrence in 10(?) years.
                     let endDate = gStartTime.clone();
@@ -2691,9 +2695,10 @@ function updateRepeat(aSuppressDialogs, aItemRepeatCall) {
                     if (dates) {
                         lastOccurrenceDate = dates[dates.length - 1];
                     }
-                    let repeatDate = cal.dateTimeToJsDate((lastOccurrenceDate || proposedUntilDate).getInTimezone(cal.floating()));
-                    setElementValue("repeat-until-datepicker", repeatDate);
+                    repeatDate = (lastOccurrenceDate || proposedUntilDate).getInTimezone(cal.floating());
+                    repeatDate = cal.dateTimeToJsDate(repeatDate);
                 }
+                setElementValue("repeat-until-datepicker", repeatDate);
             }
             if (rrules[0].length > 0) {
                 recurrenceInfo.deleteRecurrenceItem(rule);
