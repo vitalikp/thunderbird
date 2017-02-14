@@ -1,6 +1,6 @@
-# To do try builds with Gtk+2, uncomment the following line, and remove
-# everything after that.
-#ac_add_options --enable-default-toolkit=cairo-gtk2
+# To do builds with Gtk+2, set environment variable USE_GTK2=1
+
+if [ -z "${USE_GTK2}" ]; then
 
 TOOLTOOL_DIR=${TOOLTOOL_DIR:-$topsrcdir}
 
@@ -26,3 +26,9 @@ mk_add_options "export GDK_PIXBUF_MODULEDIR=$TOOLTOOL_DIR/gtk3/usr/local/lib/gdk
 
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOOLTOOL_DIR/gtk3/usr/local/lib
 mk_add_options "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
+else
+
+ac_add_options --enable-default-toolkit=cairo-gtk2
+
+fi
