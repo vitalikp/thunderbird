@@ -81,7 +81,7 @@ define _PACKAGE_EXTENSIONS
 @echo "Packaging $(dir).xpi..."
 if test -d "$(ABS_STAGE)/$(dir)"; then \
 cd $(ABS_STAGE)/$(dir)/; \
-$(ZIP) -r9mX ../$(dir).xpi * -x \*/.mkdir.done; \
+$(ZIP) -Dr9mX ../$(dir).xpi * -x \*/.mkdir.done; \
 cd ..; rm -rf $(ABS_STAGE)/$(dir); \
 fi
 
@@ -98,7 +98,6 @@ pack-ext: $(STAGEDIST)
 
 tools::
 	@$(MAKE) pack-ext STAGEDIST="$(DIST)/bin/extensions"
-	@$(MAKE) pack-ext STAGEDIST="$(DIST)/bin/distribution/extensions"
 
 endif
 
