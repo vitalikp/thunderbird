@@ -1631,6 +1631,7 @@ NS_IMETHODIMP nsMsgNewsFolder::DownloadAllForOffline(nsIUrlListener *listener, n
   m_downloadingMultipleMessages = true;
   rv = downloadState->DownloadArticles(msgWindow, this, &srcKeyArray);
   (void) RefreshSizeOnDisk();
+  delete downloadState;
   return rv;
 }
 
@@ -1660,6 +1661,7 @@ NS_IMETHODIMP nsMsgNewsFolder::DownloadMessagesForOffline(nsIArray *messages, ns
 
   rv = downloadState->DownloadArticles(window, this, &srcKeyArray);
   (void) RefreshSizeOnDisk();
+  delete downloadState;
   return rv;
 }
 
