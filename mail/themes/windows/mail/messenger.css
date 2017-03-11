@@ -254,6 +254,7 @@ button[type="menu-button"] > button {
   :root {
     --toolbarbutton-hover-background: rgba(0, 0, 0, .1);
     --toolbarbutton-hover-bordercolor: rgba(0, 0, 0, .1);
+    --toolbarbutton-header-bordercolor: rgba(0, 0, 0, .1);
     --toolbarbutton-hover-boxshadow: none;
 
     --toolbarbutton-active-background: rgba(0, 0, 0, .15);
@@ -270,6 +271,7 @@ button[type="menu-button"] > button {
   #compose-toolbox > toolbar[brighttext] {
     --toolbarbutton-hover-background: rgba(255, 255, 255, .25);
     --toolbarbutton-hover-bordercolor: rgba(255, 255, 255, .5);
+    --toolbarbutton-header-bordercolor: rgba(255, 255, 255, .25);
 
     --toolbarbutton-active-background: rgba(255, 255, 255, .4);
     --toolbarbutton-active-bordercolor: rgba(255, 255, 255, .7);
@@ -283,6 +285,7 @@ button[type="menu-button"] > button {
   #compose-toolbox > toolbar:-moz-lwtheme {
     --toolbarbutton-hover-background: rgba(255, 255, 255, .25);
     --toolbarbutton-hover-bordercolor: rgba(0, 0, 0, .2);
+    --toolbarbutton-header-bordercolor: rgba(0, 0, 0, .2);
 
     --toolbarbutton-active-background: rgba(70%, 70%, 70%, .25);
     --toolbarbutton-active-bordercolor: rgba(0, 0, 0, .3);
@@ -500,6 +503,7 @@ button[type="menu-button"] > button {
   :root {
     --toolbarbutton-hover-background: linear-gradient(hsla(0, 0%, 100%, .6), hsla(0, 0%, 100%, .1));
     --toolbarbutton-hover-bordercolor: hsla(210, 54%, 20%, .15) hsla(210, 54%, 20%, .2) hsla(210, 54%, 20%, .25);
+    --toolbarbutton-header-bordercolor: hsla(210, 54%, 20%, .15) hsla(210, 54%, 20%, .2) hsla(210, 54%, 20%, .25);
     --toolbarbutton-hover-boxshadow: 0 1px hsla(0, 0%, 100%, .3) inset,
                                      0 1px hsla(210, 54%, 20%, .03),
                                      0 0 2px hsla(210, 54%, 20%, .1);
