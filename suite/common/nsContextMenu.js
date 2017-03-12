@@ -485,24 +485,26 @@ nsContextMenu.prototype = {
   },
 
   inspectNode: function() {
-    var tmp = {};
+    let tmp = {};
     Components.utils.import("resource://devtools/shared/Loader.jsm", tmp);
-    var gBrowser = this.browser.ownerDocument.defaultView.gBrowser;
-    var tt = tmp.devtools.TargetFactory.forTab(gBrowser.selectedTab);
+    let gBrowser = this.browser.ownerDocument.defaultView.gBrowser;
+    let tt = tmp.devtools.TargetFactory.forTab(gBrowser.selectedTab);
     return gDevTools.showToolbox(tt, "inspector").then(toolbox => {
-      var inspector = toolbox.getCurrentPanel();
-      /* Currently "isRemote" is always false.
-      if (this.isRemote) {
-        this.browser.messageManager
-            .sendAsyncMessage("debug:inspect", {}, { node: this.target });
-        inspector.walker.findInspectingNode().then(nodeFront => {
-          inspector.selection.setNodeFront(nodeFront, "browser-context-menu");
-        });
-      } else {
-        inspector.selection.setNode(this.target, "browser-context-menu");
-      }
-      */
-      inspector.selection.setNode(this.target, "browser-context-menu");
+      let inspector = toolbox.getCurrentPanel();
+      // new-node-front tells us when the node has been selected, whether the
+      // browser is remote or not.
+      let onNewNode = inspector.selection.once("new-node-front");
+
+      this.browser.messageManager.sendAsyncMessage("debug:inspect", {}, {node: this.target});
+      inspector.walker.findInspectingNode().then(nodeFront => {
+        inspector.selection.setNodeFront(nodeFront, "browser-context-menu");
+      });
+
+      return onNewNode.then(() => {
+        // Now that the node has been selected, wait until the inspector is
+        // fully updated.
+        return inspector.once("inspector-updated");
+      });
     });
   },
 
