@@ -165,6 +165,14 @@
       <prefs/>
       <versionRange minVersion="0" maxVersion="*" severity="3"/>
     </emItem>
+    <emItem blockID="9e86d1ff-727a-45e3-9fb6-17f32666daf2" id="msktbird@mcafee.com">
+      <prefs/>
+      <versionRange minVersion="0" maxVersion="2.0" severity="1">
+        <targetApplication id="{3550f703-e582-4d05-9a08-453d09bdfdc6}">
+          <versionRange maxVersion="52.*" minVersion="52.0a1"/>
+        </targetApplication>
+      </versionRange>
+    </emItem>
     <emItem blockID="i360" id="ytd@mybrowserbar.com">
       <prefs/>
       <versionRange minVersion="0" maxVersion="*" severity="1"/>
@@ -839,18 +847,6 @@
     <emItem blockID="i7" id="{2224e955-00e9-4613-a844-ce69fccaae91}">
       <prefs/>
       <versionRange minVersion="0" maxVersion="*" severity="3"/>
-    </emItem>
-    <emItem blockID="i842" id="{746505DC-0E21-4667-97F8-72EA6BCF5EEF}">
-      <prefs/>
-      <versionRange minVersion="0" maxVersion="*" severity="1"/>
-    </emItem>
-    <emItem blockID="i868" id="{6e7f6f9f-8ce6-4611-add2-05f0f7049ee6}">
-      <prefs/>
-      <versionRange minVersion="0" maxVersion="*" severity="1"/>
-    </emItem>
-    <emItem blockID="i624" id="/^({b95faac1-a3d7-4d69-8943-ddd5a487d966}|{ecce0073-a837-45a2-95b9-600420505f7e}|{2713b394-286f-4d7c-89ea-4174eeab9f5a}|{da7a20cf-bef4-4342-ad78-0240fdf87055})$/">
-      <prefs/>
-      <versionRange minVersion="0" maxVersion="*" severity="1"/>
     </emItem>
     <emItem blockID="i101" id="{3a12052a-66ef-49db-8c39-e5b0bd5c83fa}">
       <prefs/>
@@ -1896,6 +1892,18 @@
       </prefs>
       <versionRange minVersion="0" maxVersion="*" severity="1"/>
     </emItem>
+    <emItem blockID="i842" id="{746505DC-0E21-4667-97F8-72EA6BCF5EEF}">
+      <prefs/>
+      <versionRange minVersion="0" maxVersion="*" severity="1"/>
+    </emItem>
+    <emItem blockID="i868" id="{6e7f6f9f-8ce6-4611-add2-05f0f7049ee6}">
+      <prefs/>
+      <versionRange minVersion="0" maxVersion="*" severity="1"/>
+    </emItem>
+    <emItem blockID="i624" id="/^({b95faac1-a3d7-4d69-8943-ddd5a487d966}|{ecce0073-a837-45a2-95b9-600420505f7e}|{2713b394-286f-4d7c-89ea-4174eeab9f5a}|{da7a20cf-bef4-4342-ad78-0240fdf87055})$/">
+      <prefs/>
+      <versionRange minVersion="0" maxVersion="*" severity="1"/>
+    </emItem>
   </emItems>
   <pluginItems>
     <pluginItem blockID="p1074">
@@ -2506,6 +2514,10 @@
       <match exp="(NPSWF32.*\.dll)|(NPSWF64.*\.dll)|(Flash\ Player\.plugin)" name="filename"/>
       <infoURL>https://get.adobe.com/flashplayer/</infoURL>
       <versionRange maxVersion="23.0.0.205" minVersion="23.0.0.185" severity="0" vulnerabilitystatus="1"/>
+    </pluginItem>
+    <pluginItem blockID="97647cd8-03c5-416c-b9d3-cd5ef87ab39f">
+      <match exp="np32dsw_1227197\.dll" name="filename"/>
+      <versionRange maxVersion="12.2.7.197" minVersion="0" severity="0" vulnerabilitystatus="1"/>
     </pluginItem>
     <pluginItem blockID="p932" os="Linux">
       <match exp="libflashplayer\.so" name="filename"/>
