@@ -1415,7 +1415,7 @@ function UpdateExtraAddressProcessing(aAddressData, aDocumentNode, aAction,
     }
     else if (aItem instanceof nsIAbCard) {
       // If we don't have a card, does this new one match?
-      if (!aDocumentNode.cardDetails.card &&
+      if (aDocumentNode.cardDetails && !aDocumentNode.cardDetails.card &&
           aItem.hasEmailAddress(aAddressData.emailAddress)) {
         // Just in case we have a bogus parent directory.
         if (aParentDir instanceof nsIAbDirectory) {
@@ -1430,7 +1430,7 @@ function UpdateExtraAddressProcessing(aAddressData, aDocumentNode, aAction,
     break;
   case nsIAbListener.directoryItemRemoved:
     // Unfortunately we don't necessarily get the same card object back.
-    if (aAddressData &&
+    if (aAddressData && aDocumentNode.cardDetails &&
         aDocumentNode.cardDetails.card &&
         aDocumentNode.cardDetails.book == aParentDir &&
         aItem.hasEmailAddress(aAddressData.emailAddress)) {
@@ -1473,7 +1473,7 @@ function setupEmailAddressPopup(emailAddressNode)
   emailAddressNode.setAttribute("selected", "true");
   emailAddressPlaceHolder.setAttribute("label", emailAddress);
 
-  if (emailAddressNode.cardDetails.card) {
+  if (emailAddressNode.cardDetails && emailAddressNode.cardDetails.card) {
     document.getElementById("addToAddressBookItem").setAttribute("hidden", true);
     if (!emailAddressNode.cardDetails.book.readOnly) {
       document.getElementById("editContactItem").removeAttribute("hidden");
