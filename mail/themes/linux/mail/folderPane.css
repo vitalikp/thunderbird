@@ -3,6 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* ::::: Folder Pane ::::: */
+treechildren::-moz-tree-image {
+  width: 16px;
+  height: 16px;
+}
+
 /* reduce the padding set from messenger.css */
 #folderTree treechildren::-moz-tree-cell-text {
   padding-inline-start: 2px;
@@ -118,8 +123,6 @@ treechildren::-moz-tree-image(folderNameCol, serverType-nntp) {
 treechildren::-moz-tree-image(folderNameCol, isFeedFolder-true) {
   list-style-image: url("chrome://messenger-newsblog/skin/icons/rss-feed.png");
   -moz-image-region: rect(0 16px 16px 0);
-  width: 16px;
-  height: 16px;
 }
 
 treechildren::-moz-tree-cell-text(folderNameCol, newMessages-true),
