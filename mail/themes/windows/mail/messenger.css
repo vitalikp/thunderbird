@@ -485,7 +485,7 @@ button[type="menu-button"] > button {
     }
   }
 
-  menupopup:not([type="folder"]) > menuseparator {
+  menulist > menupopup:not([type="folder"]) > menuseparator {
     -moz-appearance: none;
     margin-top: 3px;
     margin-bottom: 3px;
