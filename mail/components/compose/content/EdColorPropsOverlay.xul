@@ -24,7 +24,7 @@
             window.close();
           }
         });
-        reader.readAsDataURL(new File(nsFile));
+        reader.readAsDataURL(File.createFromNsIFile(nsFile));
         return false; // Don't close just yet...
       }
     }
