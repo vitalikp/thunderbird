@@ -5425,7 +5425,12 @@ function InitEditor()
         // images in the original message. Load those and make them data: URLs
         // now.
         event.target.classList.add("loading-internal");
-        loadBlockedImage(src);
+        try {
+          loadBlockedImage(src);
+        } catch (e) {
+          // Couldn't load the referenced image.
+          Components.utils.reportError(e);
+        }
       }
       else {
         // Appears to reference a random message. Notify and keep blocking.
@@ -5627,6 +5632,9 @@ function onBlockedContentOptionsShowing(aEvent) {
 function onUnblockResource(aURL, aNode) {
   try {
     loadBlockedImage(aURL);
+  } catch (e) {
+    // Couldn't load the referenced image.
+    Components.utils.reportError(e);
   } finally {
     // Remove it from the list on success and failure.
     let urls = aNode.value.split(" ");
@@ -5646,7 +5654,10 @@ function onUnblockResource(aURL, aNode) {
 /**
  * Convert the blocked content to a data URL and swap the src to that for the
  * elements that were using it.
+ *
  * @param {String} aURL - (necko) URL to unblock
+ *
+ * @throw Error()  if reading the data failed
  */
 function loadBlockedImage(aURL) {
   let filename;
@@ -5684,8 +5695,17 @@ function loadBlockedImage(aURL) {
   let stream = Components.classes["@mozilla.org/binaryinputstream;1"]
     .createInstance(Components.interfaces.nsIBinaryInputStream);
   stream.setInputStream(inputStream);
-  let encoded = btoa(stream.readBytes(stream.available()));
+  let streamData = "";
+  try {
+    while (stream.available() > 0) {
+      streamData += stream.readBytes(stream.available());
+    }
+  } catch(e) {
+    stream.close();
+    throw new Error("Couln't read all data from URL=" + aURL + " (" + e +")");
+  }
   stream.close();
+  let encoded = btoa(streamData);
   let dataURL = "data:" + contentType +
     (filename ? ";filename=" + encodeURIComponent(filename) : "") +
     ";base64," + encoded;
