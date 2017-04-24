@@ -1302,6 +1302,7 @@ nsImapProtocol::GetLastActiveTimeStamp(PRTime* aTimeStamp)
   return NS_OK;
 }
 
+static void DoomCacheEntry(nsIMsgMailNewsUrl *url);
 NS_IMETHODIMP
 nsImapProtocol::PseudoInterruptMsgLoad(nsIMsgFolder *aImapFolder, nsIMsgWindow *aMsgWindow, bool *interrupted)
 {
@@ -1334,6 +1335,8 @@ nsImapProtocol::PseudoInterruptMsgLoad(nsIMsgFolder *aImapFolder, nsIMsgWindow *
           PseudoInterrupt(true);
           *interrupted = true;
         }
+        // If we're interrupted, doom any incomplete cache entry.
+        DoomCacheEntry(mailnewsUrl);
       }
     }
   }
