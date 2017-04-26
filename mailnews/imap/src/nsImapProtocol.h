@@ -701,6 +701,7 @@ public:
 
   nsImapMockChannel();
   static nsresult Create (const nsIID& iid, void **result);
+  nsresult RunOnStopRequestFailure();
 
 protected:
   virtual ~nsImapMockChannel();

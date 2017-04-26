@@ -9382,6 +9382,34 @@ nsresult nsImapMockChannel::ReadFromMemCache(nsICacheEntry *entry)
   return rv;
 }
 
+class nsReadFromImapConnectionFailure : public mozilla::Runnable
+{
+public:
+  nsReadFromImapConnectionFailure(nsImapMockChannel *aChannel)
+    : mImapMockChannel(aChannel)
+  {}
+
+  NS_IMETHOD Run()
+  {
+    if (mImapMockChannel) {
+      mImapMockChannel->RunOnStopRequestFailure();
+    }
+    return NS_OK;
+  }
+private:
+  RefPtr<nsImapMockChannel> mImapMockChannel;
+};
+
+
+nsresult nsImapMockChannel::RunOnStopRequestFailure()
+{
+  if (m_channelListener) {
+    m_channelListener->OnStopRequest(this, m_channelContext,
+                                     NS_MSG_ERROR_MSG_NOT_OFFLINE);
+  }
+  return NS_OK;
+}
+
 // the requested url isn't in any of our caches so create an imap connection
 // to process it.
 nsresult nsImapMockChannel::ReadFromImapConnection()
@@ -9398,9 +9426,12 @@ nsresult nsImapMockChannel::ReadFromImapConnection()
     // will then cause an OnStopRunningUrl with the cancel status.
     NotifyStartEndReadFromCache(true);
     Cancel(NS_MSG_ERROR_MSG_NOT_OFFLINE);
-    if (m_channelListener)
-      m_channelListener->OnStopRequest(this, m_channelContext,
-                                       NS_MSG_ERROR_MSG_NOT_OFFLINE);
+
+    // Dispatch error notification, so ReadFromImapConnection() returns *before*
+    // the error is sent to the listener's OnStopRequest(). This avoids
+    // endless recursion where the caller relies on async execution.
+    nsCOMPtr<nsIRunnable> event = new nsReadFromImapConnectionFailure(this);
+    NS_DispatchToCurrentThread(event);
     return NS_MSG_ERROR_MSG_NOT_OFFLINE;
   }
 
