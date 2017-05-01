@@ -254,6 +254,14 @@ nsMsgContentPolicy::ShouldLoad(uint32_t          aContentType,
     if (contentPrePath.Equals(requestingPrePath))  {
       *aDecision = nsIContentPolicy::ACCEPT;
       return NS_OK;
+    } else {
+      nsCString contentScheme, requestingScheme;
+      aContentLocation->GetScheme(contentScheme);
+      aRequestingLocation->GetScheme(requestingScheme);
+      if (contentScheme.Equals("mailbox") && requestingScheme.Equals("mailbox")) {
+        *aDecision = nsIContentPolicy::ACCEPT;
+        return NS_OK;
+      }
     }
   }
 
