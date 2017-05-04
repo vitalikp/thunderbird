@@ -779,7 +779,7 @@ nsBoxFileUploader.prototype = {
     req.setRequestHeader("Authorization", "Bearer " + this.box._oauth.accessToken);
 
     // Encode the form.
-    let file = new File(this.file);
+    let file = File.createFromNsIFile(this.file);
     let form = Cc["@mozilla.org/files/formdata;1"]
                  .createInstance(Ci.nsIDOMFormData);
     form.append("filename", file, this.file.leafName);
