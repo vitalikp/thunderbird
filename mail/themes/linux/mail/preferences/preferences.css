@@ -239,3 +239,7 @@ a {
 #provider-account-settings {
   -moz-box-flex: 0;
 }
+
+.fileFieldContentBox {
+  background-color: transparent;
+}
