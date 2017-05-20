@@ -377,7 +377,7 @@ SuiteGlue.prototype = {
 
   _migrateUI: function()
   {
-    const UI_VERSION = 1;
+    const UI_VERSION = 2;
 
     // If the pref is not set this is a new or pre SeaMonkey 2.50 profile.
     // We can't tell so we just run migration with version 0.
@@ -435,6 +435,16 @@ SuiteGlue.prototype = {
       } finally {
         db.close();
       }
+    }
+
+    // Migration of disabled safebrowsing-phishing setting after pref renaming.
+    if (currentUIVersion < 2) {
+      try {
+        if (!Services.prefs.getBoolPref("browser.safebrowsing.enabled")) {
+          Services.prefs.setBoolPref("browser.safebrowsing.phishing.enabled", false);
+          Services.prefs.clearUserPref("browser.safebrowsing.enabled");
+        }
+      } catch (ex) {}
     }
 
     // Update the migration version.
