@@ -107,7 +107,7 @@ NS_IMETHODIMP nsMsgMailNewsUrl::GetPrincipal(nsIPrincipal **aPrincipal)
     nsCOMPtr<nsIURI> uri;
     nsresult rv = NS_NewURI(getter_AddRefs(uri), spec);
     NS_ENSURE_SUCCESS(rv, rv);
-    mozilla::OriginAttributes attrs;
+    mozilla::PrincipalOriginAttributes attrs;
     m_principal = mozilla::BasePrincipal::CreateCodebasePrincipal(uri, attrs);
   }
 
