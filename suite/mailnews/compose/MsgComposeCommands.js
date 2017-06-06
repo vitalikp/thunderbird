@@ -2489,13 +2489,13 @@ function OpenSelectedAttachment()
       }
     } else {
       // Turn the URL into a nsIURI object then open it.
-      let uri = Services.io.newURI(attachmentUrl);
+      let uri = Services.io.newURI(attachmentUrl, null, null);
       if (uri) {
         let channel = Services.io.newChannelFromURI2(uri,
                                                      null,
                                                      Services.scriptSecurityManager.getSystemPrincipal(),
                                                      null,
-                                                     Components.interfaces.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_DATA_IS_NULL,
+                                                     Components.interfaces.nsILoadInfo.SEC_NORMAL,
                                                      Components.interfaces.nsIContentPolicy.TYPE_OTHER);
         if (channel) {
           let uriLoader = Components.classes["@mozilla.org/uriloader;1"].getService(Components.interfaces.nsIURILoader);
