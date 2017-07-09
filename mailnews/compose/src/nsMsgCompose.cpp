@@ -1312,6 +1312,8 @@ NS_IMETHODIMP nsMsgCompose::SendMsg(MSG_DeliverMode deliverMode, nsIMsgIdentity 
         flags |= nsIDocumentEncoder::OutputFormatted;
       if (disallowBreaks)
         flags |= nsIDocumentEncoder::OutputDisallowLineBreaking;
+      // Don't lose NBSP in the plain text encoder.
+      flags |= nsIDocumentEncoder::OutputPersistNBSP;
     }
     rv = m_editor->OutputToString(contentType, flags, msgBody);
     NS_ENSURE_SUCCESS(rv, rv);
