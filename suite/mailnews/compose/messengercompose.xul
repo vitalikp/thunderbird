@@ -55,6 +55,7 @@
 
 <stringbundleset id="stringbundleset">
   <stringbundle id="bundle_composeMsgs" src="chrome://messenger/locale/messengercompose/composeMsgs.properties"/>
+  <stringbundle id="bundle_composeMsgsTB" src="chrome://messenger/locale/messengercompose/composeMsgsTB.properties"/>
   <stringbundle id="bundle_messenger" src="chrome://messenger/locale/messenger.properties"/>
   <stringbundle id="bundle_offlinePrompts" src="chrome://messenger/locale/offline.properties"/>
   <stringbundle id="languageBundle" src="chrome://global/locale/languageNames.properties"/>
@@ -147,6 +148,7 @@
   <key keycode="VK_F6" oncommand="SwitchElementFocus(event);" modifiers="control,shift"/>
   <key keycode="VK_F6" oncommand="SwitchElementFocus(event);" modifiers="shift"/>
   <key keycode="VK_F6" oncommand="SwitchElementFocus(event);"/>
+  <key keycode="VK_ESCAPE" oncommand="handleEsc();"/>
 </keyset>
 <keyset id="editorKeys"/>
 <keyset id="composeKeys">
@@ -183,6 +185,10 @@
                 command="cmd_attachPage"/>
     </menupopup>
   </popupset>
+
+  <menupopup id="blockedContentOptions" value=""
+             onpopupshowing="onBlockedContentOptionsShowing(event);">
+  </menupopup>
 
   <vbox id="titlebar"/>
 
@@ -646,6 +652,13 @@
             context="contentAreaContextMenu"/>
   </vbox>
 </hbox>
+
+  <hbox>
+    <notificationbox id="attachmentNotificationBox"
+                     flex="1"
+                     notificationside="bottom"/>
+  </hbox>
+
 
   <statusbar id="status-bar" class="chromeclass-status">
     <statusbarpanel id="component-bar"/>
