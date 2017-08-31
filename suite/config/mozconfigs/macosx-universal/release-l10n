@@ -1,6 +1,12 @@
+. $topsrcdir/suite/config/mozconfigs/mozconfig.macosx.common
+
 ac_add_options --with-l10n-base=../../l10n
 ac_add_options --enable-application=suite
 ac_add_options --enable-update-channel=${MOZ_UPDATE_CHANNEL}
+
+# Build lightning locales
+ac_add_options --enable-calendar
+mk_add_options MOZ_POSTFLIGHT_ALL+=calendar/lightning/build/universal.mk
 
 # Needed to enable breakpad in application.ini
 export MOZILLA_OFFICIAL=1
