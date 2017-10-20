@@ -111,7 +111,7 @@ FeedParser.prototype =
     tags = this.childrenByTagNameNS(channel, nsURI, "description");
     aFeed.description = this.getNodeValue(tags ? tags[0] : null);
     tags = this.childrenByTagNameNS(channel, nsURI, "link");
-    aFeed.link = this.getNodeValue(tags ? tags[0] : null);
+    aFeed.link = this.validLink(this.getNodeValue(tags ? tags[0] : null));
 
     if (!(aFeed.title || aFeed.description) || !aFeed.link)
     {
@@ -141,11 +141,11 @@ FeedParser.prototype =
       item.keywords = [];
 
       tags = this.childrenByTagNameNS(itemNode, FeedUtils.FEEDBURNER_NS, "origLink");
-      let link = this.getNodeValue(tags ? tags[0] : null);
+      let link = this.validLink(this.getNodeValue(tags ? tags[0] : null));
       if (!link)
       {
         tags = this.childrenByTagNameNS(itemNode, nsURI, "link");
-        link = this.getNodeValue(tags ? tags[0] : null);
+        link = this.validLink(this.getNodeValue(tags ? tags[0] : null));
       }
       tags = this.childrenByTagNameNS(itemNode, nsURI, "guid");
       let guidNode = tags ? tags[0] : null;
@@ -180,7 +180,8 @@ FeedParser.prototype =
         item.id = guid;
       }
 
-      item.url = (guid && isPermaLink) ? guid : link ? link : null;
+      let guidLink = this.validLink(guid);
+      item.url = isPermaLink && guidLink ? guidLink : link ? link : null;
       tags = this.childrenByTagNameNS(itemNode, nsURI, "description");
       item.description = this.getNodeValue(tags ? tags[0] : null);
       tags = this.childrenByTagNameNS(itemNode, nsURI, "title");
@@ -253,7 +254,7 @@ FeedParser.prototype =
       if (tags)
         for (let tag of tags)
         {
-          let url = (tag.getAttribute("url") || "").trim();
+          let url = this.validLink(tag.getAttribute("url"));
           if (url && encUrls.indexOf(url) == -1)
           {
             item.enclosures.push(new FeedEnclosure(url,
@@ -267,7 +268,7 @@ FeedParser.prototype =
       if (tags)
         for (let tag of tags)
         {
-          let url = (tag.getAttribute("url") || "").trim();
+          let url = this.validLink(tag.getAttribute("url"));
           if (url && encUrls.indexOf(url) == -1)
             item.enclosures.push(new FeedEnclosure(url,
                                                    tag.getAttribute("type"),
@@ -282,7 +283,7 @@ FeedParser.prototype =
       // first enclosure's, if found, url with the first <origEnclosureLink>
       // url only or else add the <origEnclosureLink> url.
       tags = this.childrenByTagNameNS(itemNode, FeedUtils.FEEDBURNER_NS, "origEnclosureLink");
-      let origEncUrl = this.getNodeValue(tags ? tags[0] : null);
+      let origEncUrl = this.validLink(this.getNodeValue(tags ? tags[0] : null));
       if (origEncUrl)
       {
         if (item.enclosures.length)
@@ -336,7 +337,7 @@ FeedParser.prototype =
                   aFeed.url;
     aFeed.description = this.getRDFTargetValue(ds, channel, FeedUtils.RSS_DESCRIPTION) ||
                         "";
-    aFeed.link = this.getRDFTargetValue(ds, channel, FeedUtils.RSS_LINK) ||
+    aFeed.link = this.validLink(this.getRDFTargetValue(ds, channel, FeedUtils.RSS_LINK)) ||
                  aFeed.url;
 
     if (!(aFeed.title || aFeed.description) || !aFeed.link)
@@ -364,7 +365,7 @@ FeedParser.prototype =
       // Prefer the value of the link tag to the item URI since the URI could be
       // a relative URN.
       let uri = itemResource.ValueUTF8;
-      let link = this.getRDFTargetValue(ds, itemResource, FeedUtils.RSS_LINK);
+      let link = this.validLink(this.getRDFTargetValue(ds, itemResource, FeedUtils.RSS_LINK));
       item.url = link || uri;
       item.description = this.getRDFTargetValue(ds, itemResource,
                                                 FeedUtils.RSS_DESCRIPTION);
@@ -381,6 +382,7 @@ FeedParser.prototype =
       }
 
       item.id = item.url;
+      item.url = this.validLink(item.url);
 
       item.author = this.getRDFTargetValue(ds, itemResource, FeedUtils.DC_CREATOR) ||
                     this.getRDFTargetValue(ds, channel, FeedUtils.DC_CREATOR) ||
@@ -416,7 +418,7 @@ FeedParser.prototype =
     tags = this.childrenByTagNameNS(channel, FeedUtils.ATOM_03_NS, "tagline");
     aFeed.description = this.getNodeValue(tags ? tags[0] : null);
     tags = this.childrenByTagNameNS(channel, FeedUtils.ATOM_03_NS, "link");
-    aFeed.link = this.findAtomLink("alternate", tags);
+    aFeed.link = this.validLink(this.findAtomLink("alternate", tags));
 
     if (!aFeed.title)
     {
@@ -442,7 +444,7 @@ FeedParser.prototype =
       item.feed = aFeed;
 
       tags = this.childrenByTagNameNS(itemNode, FeedUtils.ATOM_03_NS, "link");
-      item.url = this.findAtomLink("alternate", tags);
+      item.url = this.validLink(this.findAtomLink("alternate", tags));
 
       tags = this.childrenByTagNameNS(itemNode, FeedUtils.ATOM_03_NS, "id");
       item.id = this.getNodeValue(tags ? tags[0] : null);
@@ -553,6 +555,7 @@ FeedParser.prototype =
 
     tags = this.childrenByTagNameNS(channel, FeedUtils.ATOM_IETF_NS, "link");
     aFeed.link = this.findAtomLink("alternate", tags);
+    aFeed.link = this.validLink(aFeed.link);
 
     if (!aFeed.title)
     {
@@ -580,11 +583,12 @@ FeedParser.prototype =
       item.keywords = [];
 
       tags = this.childrenByTagNameNS(itemNode, FeedUtils.FEEDBURNER_NS, "origLink");
-      item.url = this.getNodeValue(tags ? tags[0] : null);
+      item.url = this.validLink(this.getNodeValue(tags ? tags[0] : null));
       if (!item.url)
       {
         tags = this.childrenByTagNameNS(itemNode, FeedUtils.ATOM_IETF_NS, "link");
-        item.url = this.findAtomLink("alternate", tags) || aFeed.link;
+        item.url = this.validLink(this.findAtomLink("alternate", tags)) ||
+                   aFeed.link;
       }
       tags = this.childrenByTagNameNS(itemNode, FeedUtils.ATOM_IETF_NS, "id");
       item.id = this.getNodeValue(tags ? tags[0] : null);
@@ -657,6 +661,7 @@ FeedParser.prototype =
         {
           let url = tag.getAttribute("rel") == "enclosure" ?
                       (tag.getAttribute("href") || "").trim() : null;
+          url = this.validLink(url);
           if (url && encUrls.indexOf(url) == -1)
           {
             item.enclosures.push(new FeedEnclosure(url,
@@ -668,7 +673,7 @@ FeedParser.prototype =
         }
 
       tags = this.childrenByTagNameNS(itemNode, FeedUtils.FEEDBURNER_NS, "origEnclosureLink");
-      let origEncUrl = this.getNodeValue(tags ? tags[0] : null);
+      let origEncUrl = this.validLink(this.getNodeValue(tags ? tags[0] : null));
       if (origEncUrl)
       {
         if (item.enclosures.length)
@@ -841,6 +846,7 @@ FeedParser.prototype =
   {
     if (!aElement)
       return null;
+
     let matches = aElement.getElementsByTagNameNS(aNamespace, aTagName);
     let matchingChildren = new Array();
     for (let match of matches)
@@ -850,6 +856,22 @@ FeedParser.prototype =
     }
 
     return matchingChildren.length ? matchingChildren : null;
+  },
+
+  /**
+   * Ensure <link> type tags start with http[s]: for values stored in mail
+   * headers (content-base and remote enclosures), particularly to prevent
+   * data: uris, javascript, and other spoofing.
+   *
+   * @param {String} link - An intended http url string.
+   * @return {String}     - A clean string starting with http, else null.
+   */
+  validLink: function(link)
+  {
+    if (/^https?:\/\//.test(link))
+      return this.removeUnprintableASCII(link.trim());
+
+    return null;
   },
 
   findAtomLink: function(linkRel, linkElements)
@@ -876,6 +898,17 @@ FeedParser.prototype =
     }
 
     return null;
+  },
+
+  /**
+   * Remove unprintable ascii, particularly CR/LF, for non formatted tag values.
+   *
+   * @param {String} s - String to clean.
+   * @return {String}
+   */
+  removeUnprintableASCII: function(s)
+  {
+    return s ? s.replace(/[\x00-\x1F]+/g, "") : "";
   },
 
   stripTags: function(someHTML)
