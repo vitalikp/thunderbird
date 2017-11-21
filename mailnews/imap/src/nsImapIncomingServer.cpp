@@ -1897,7 +1897,8 @@ nsImapIncomingServer::FEAlertWithName(const char* aMsgName, nsIMsgMailNewsUrl *a
     nsresult rv = GetHostName(hostName);
     if (NS_SUCCEEDED(rv))
     {
-      const char16_t *params[] = { NS_ConvertUTF8toUTF16(hostName).get() };
+      const NS_ConvertUTF8toUTF16 hostName16(hostName);
+      const char16_t *params[] = { hostName16.get() };
       rv = m_stringBundle->FormatStringFromName(
         NS_ConvertASCIItoUTF16(aMsgName).get(),
         params, 1,getter_Copies(message));
