@@ -5268,7 +5268,12 @@ var gAttachmentNotifier =
       "mail.compose.attachment_reminder_keywords",
       Components.interfaces.nsIPrefLocalizedString).data;
     let mailBody = getBrowser().contentDocument.querySelector("body");
-    let mailBodyNode = mailBody.cloneNode(true);
+
+    // We use a new document and import the body into it. We do that to avoid
+    // loading images that were previously blocked. Content policy of the newly
+    // created data document will block the loads. Details: Bug 1409458 comment #22.
+    let newDoc = getBrowser().contentDocument.implementation.createDocument("", "", null);
+    let mailBodyNode = newDoc.importNode(mailBody, true);
 
     // Don't check quoted text from reply.
     let blockquotes = mailBodyNode.getElementsByTagName("blockquote");
@@ -5358,6 +5363,32 @@ var gAttachmentNotifier =
                    .createInstance(Components.interfaces.nsITimer)
 };
 
+/**
+ * Helper function to remove a query part from a URL, so for example:
+ * ...?remove=xx&other=yy becomes ...?other=yy.
+ *
+ * @param aURL    the URL from which to remove the query part
+ * @param aQuery  the query part to remove
+ * @return        the URL with the query part removed
+ */
+function removeQueryPart(aURL, aQuery)
+{
+  // Quick pre-check.
+  if (aURL.indexOf(aQuery) < 0)
+    return aURL;
+
+  let indexQM = aURL.indexOf("?");
+  if (indexQM < 0)
+    return aURL;
+
+  let queryParts = aURL.substr(indexQM + 1).split("&");
+  let indexPart = queryParts.indexOf(aQuery);
+  if (indexPart < 0)
+    return aURL;
+  queryParts.splice(indexPart, 1);
+  return aURL.substr(0, indexQM + 1) + queryParts.join("&");
+}
+
 function InitEditor()
 {
   var editor = GetCurrentEditor();
@@ -5435,7 +5466,8 @@ function InitEditor()
         .messageServiceFromURI(gOriginalMsgURI);
       let originalMsgNeckoURI = {};
       msgSvc.GetUrlForUri(gOriginalMsgURI, originalMsgNeckoURI, null);
-      if (src.startsWith(originalMsgNeckoURI.value.spec)) {
+      if (src.startsWith(removeQueryPart(originalMsgNeckoURI.value.spec,
+                                         "type=application/x-message-display"))) {
         // Reply/Forward/Edit Draft/Edit as New can contain references to
         // images in the original message. Load those and make them data: URLs
         // now.
@@ -5468,7 +5500,9 @@ function InitEditor()
       .messageServiceFromURI(gOriginalMsgURI);
     let originalMsgNeckoURI = {};
     msgSvc.GetUrlForUri(gOriginalMsgURI, originalMsgNeckoURI, null);
-    if (background.startsWith(originalMsgNeckoURI.value.spec)) {
+    if (background.startsWith(
+        removeQueryPart(originalMsgNeckoURI.value.spec,
+                        "type=application/x-message-display"))) {
       try {
         editor.document.body.background = loadBlockedImage(background, true);
       } catch (e) {

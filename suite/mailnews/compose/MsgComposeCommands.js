@@ -151,6 +151,15 @@ function enableEditableFields()
 
 }
 
+/**
+ * Small helper function to check whether the node passed in is a signature.
+ * Note that a text node is not a DOM element, hence .localName can't be used.
+ */
+function isSignature(aNode) {
+  return ["DIV","PRE"].includes(aNode.nodeName) &&
+         aNode.classList.contains("moz-signature");
+}
+
 var stateListener = {
   NotifyComposeFieldsReady: function() {
     ComposeFieldsReady();
@@ -218,6 +227,9 @@ var stateListener = {
     if (this.useParagraph) {
       this.editor.enableUndo(false);
 
+      let mailDoc = document.getElementById("content-frame").contentDocument;
+      let mailBody = mailDoc.querySelector("body");
+      this.editor.selection.collapse(mailBody, 0);
       let pElement = this.editor.createElementWithDefaults("p");
       let brElement = this.editor.createElementWithDefaults("br");
       pElement.appendChild(brElement);
@@ -239,6 +251,11 @@ var stateListener = {
       let mailDoc = document.getElementById("content-frame").contentDocument;
       let mailBody = mailDoc.querySelector("body");
       let selection = this.editor.selection;
+
+      // Make sure the selection isn't inside the signature.
+      if (isSignature(mailBody.firstChild))
+        selection.collapse(mailBody, 0);
+
       let range = selection.getRangeAt(0);
       let start = range.startOffset;
 
@@ -3285,6 +3302,32 @@ function AutoSave()
   gAutoSaveTimeout = setTimeout(AutoSave, gAutoSaveInterval);
 }
 
+/**
+ * Helper function to remove a query part from a URL, so for example:
+ * ...?remove=xx&other=yy becomes ...?other=yy.
+ *
+ * @param aURL    the URL from which to remove the query part
+ * @param aQuery  the query part to remove
+ * @return        the URL with the query part removed
+ */
+function removeQueryPart(aURL, aQuery)
+{
+  // Quick pre-check.
+  if (aURL.indexOf(aQuery) < 0)
+    return aURL;
+
+  let indexQM = aURL.indexOf("?");
+  if (indexQM < 0)
+    return aURL;
+
+  let queryParts = aURL.substr(indexQM + 1).split("&");
+  let indexPart = queryParts.indexOf(aQuery);
+  if (indexPart < 0)
+    return aURL;
+  queryParts.splice(indexPart, 1);
+  return aURL.substr(0, indexQM + 1) + queryParts.join("&");
+}
+
 function InitEditor(editor)
 {
   // Set the eEditorMailMask flag to avoid using content prefs for the spell
@@ -3346,7 +3389,8 @@ function InitEditor(editor)
       let originalMsgNeckoURI = {};
       msgSvc.GetUrlForUri(gOriginalMsgURI, originalMsgNeckoURI, null);
 
-      if (src.startsWith(originalMsgNeckoURI.value.spec)) {
+      if (src.startsWith(removeQueryPart(originalMsgNeckoURI.value.spec,
+                                         "type=application/x-message-display"))) {
         // Reply/Forward/Edit Draft/Edit as New can contain references to
         // images in the original message. Load those and make them data: URLs
         // now.
@@ -3380,7 +3424,9 @@ function InitEditor(editor)
     let originalMsgNeckoURI = {};
     msgSvc.GetUrlForUri(gOriginalMsgURI, originalMsgNeckoURI, null);
 
-    if (background.startsWith(originalMsgNeckoURI.value.spec)) {
+    if (background.startsWith(
+        removeQueryPart(originalMsgNeckoURI.value.spec,
+                        "type=application/x-message-display"))) {
       try {
         editor.document.body.background = loadBlockedImage(background, true);
       } catch (e) {

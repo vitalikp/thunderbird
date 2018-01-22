@@ -625,6 +625,9 @@ pref("custtoolbar.personal_toolbar_folder", "");
 // Use a popup window for the customize toolbar UI
 pref("toolbar.customization.usesheet", false);
 
+// Show the toolbar and menu grippies.
+pref("browser.toolbars.grippyhidden", false);
+
 #ifdef XP_WIN
 pref("browser.taskbar.lists.enabled", true);
 pref("browser.taskbar.lists.frequent.enabled", true);
@@ -726,6 +729,10 @@ pref("plugin.disable", false);
 
 // Digital Rights Management, Encrypted Media Extensions
 pref("media.eme.enabled", false);
+ 
+// Turn off WebRTC by default (bug 1419507)
+pref("media.navigator.enabled", false);
+pref("media.peerconnection.enabled", false);
 
 #ifndef XP_MACOSX
 // Restore the spinner that was removed in bug 481359
