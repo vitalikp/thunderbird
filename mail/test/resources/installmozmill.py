@@ -84,7 +84,7 @@ def main(args=None):
     sys.exit(returncode)
   pip = entry_point_path(destination, 'pip')
 
-  if os.envion('MOZ_AUTOMATION') == 1:
+  if os.environ('MOZ_AUTOMATION') == 1:
         find_links = [
             '--find-links', 'http://pypi.pub.build.mozilla.org/pub/',
             '--no-index',
