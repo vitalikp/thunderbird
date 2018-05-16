@@ -86,7 +86,7 @@ def main(args=None):
 
   if os.environ.get('MOZ_AUTOMATION') == '1':
         find_links = [
-            '--find-links', 'http://pypi.pub.build.mozilla.org/pub/',
+            '--find-links', 'https://pypi.pub.build.mozilla.org/pub/',
             '--no-index',
         ]
   else:
